@@ -7,12 +7,12 @@ interface Props {
 
 interface MealsContextData {
   meals: IMeals[];
-  test: string;
-  getMeals: () => void;
+  mealsData: IMeals[]
 }
 
 interface IMeals {
   id: string;
+  title: string;
   breakfast: string;
   lunch: string;
   snack: string;
@@ -23,15 +23,56 @@ interface IMeals {
   dinner_time: Date
 }
 
+const mealsData = [
+  {
+    id: '1',
+    title: 'Light Meals',
+    breakfast: 'Apple or banana',
+    lunch: 'Rice, beans and steak',
+    snack: 'Any fruit',
+    dinner: 'Rice beans, chicken and a salad',
+    breakfast_time: new Date(),
+    lunch_time: new Date(),
+    snack_time: new Date(),
+    dinner_time: new Date(),
+  },
+
+  {
+    id: '2',
+    title: 'Medium Meals',
+    breakfast: 'Cereal',
+    lunch: 'Rice, beans, salad, potato and a chicken',
+    snack: 'Sandwich',
+    dinner: 'Rice beans, steak and a salad',
+    breakfast_time: new Date(),
+    lunch_time: new Date(),
+    snack_time: new Date(),
+    dinner_time: new Date(),
+  },
+
+  {
+    id: '3',
+    title: 'Fiber Meals',
+    breakfast: 'Sweet potatos and chicken',
+    lunch: 'Rice, sweet potatoes and chicken',
+    snack: 'A fruit',
+    dinner: 'Rice beans, steak, salad and a juice',
+    breakfast_time: new Date(),
+    lunch_time: new Date(),
+    snack_time: new Date(),
+    dinner_time: new Date()
+  }
+]
+
 export const MealsContext = createContext({} as MealsContextData);
 
 export function MealsProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
-  const test = 'test here bro!'
 
   async function getMeals() {
     const meals = await api.get('/meals');
     setMeals(meals.data);
+    console.log(meals)
   }
 
   useEffect(() => {
@@ -41,8 +82,7 @@ export function MealsProvider({ children }: Props) {
   return (
     <MealsContext.Provider value={{
       meals,
-      test,
-      getMeals
+      mealsData,
     }}>
       { children }
     </MealsContext.Provider>

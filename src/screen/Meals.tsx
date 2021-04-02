@@ -2,14 +2,39 @@ import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/s
 import React, { useContext, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView, Dimensions } from 'react-native';
 
+import Constant from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 import { MealsContext } from '../contexts/MealsContext';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false
+  })
+})
 
 interface Props {
   navigation: StackNavigationHelpers;
 }
 
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: 'You got an email! 📬',
+      body: "You need to get rid of chocolates",
+      data: { data: new Date().setSeconds(5) }
+    },
+    trigger: { seconds: 2 }
+  })
+}
+
 export function Meals({ navigation }: Props) {
-  const { meals } = useContext(MealsContext);
+  const { meals, mealsData } = useContext(MealsContext);
+
+  useEffect(() => {
+    // schedulePushNotification();
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -20,8 +45,8 @@ export function Meals({ navigation }: Props) {
         <Text style={styles.title}>Default Tracks</Text>
 
         <FlatList
-          data={meals}
-          style={{ marginBottom: 20, }}
+          data={mealsData}
+          style={{ marginBottom: 20 }}
           horizontal
           keyExtractor={meals => meals.id}
           renderItem={({ item }) => (
@@ -31,7 +56,7 @@ export function Meals({ navigation }: Props) {
                 style={styles.icons}
               />
               <View style={styles.info}>
-                <Text style={styles.infoText}>Light Meal</Text>
+                <Text style={styles.mealTitle}>Light Meal</Text>
               </View>
             </TouchableOpacity>
           )}
@@ -39,14 +64,26 @@ export function Meals({ navigation }: Props) {
 
         <Text style={styles.title}>Community Tracks</Text>
 
+        <FlatList
+          data={meals}
+          numColumns={2}
+          style={{ marginBottom: 20, }}
+          keyExtractor={meals => meals.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}>
+              <Image source={require('../assets/icons/meal.png')} style={styles.icons} />
+              <View style={styles.info}>
+                <Text style={styles.mealTitle}>Fiber Plan</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+
       </View>
     </View>
   )
 }
 
-/*
-LATER USE THE EXTENDED STYLESHEET
-*/
 
 const styles = StyleSheet.create({
   container: {
@@ -59,6 +96,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
 
+  // Default Tracks
   title: {
     fontSize: 25,
     color: '#333',
@@ -87,10 +125,17 @@ const styles = StyleSheet.create({
     width: '100%',
     marginLeft: 10,
   },
-  infoText: {
+  mealTitle: {
     fontSize: 15,
     color: '#333',
     fontWeight: 'bold'
+  },
+
+  // Community Tracks
+  smallMealContainer: {
+    flex: 1,
+    marginRight: 0,
+    margin: 5,
   }
 });
 
