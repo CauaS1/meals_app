@@ -42,7 +42,10 @@ export function Meals({ navigation }: Props) {
 
 
       <View style={styles.contentList}>
-        <Text style={styles.title}>Default Tracks</Text>
+        <View style={styles.titleHeaders} >
+          <Text style={styles.title}>Default Tracks</Text>
+          <Text style={styles.seeAllBtnText}>Move to the sides</Text>
+        </View>
 
         <FlatList
           data={mealsData}
@@ -62,24 +65,35 @@ export function Meals({ navigation }: Props) {
           )}
         />
 
-        <Text style={styles.title}>Community Tracks</Text>
+        <View style={styles.titleHeaders} >
+          <Text style={styles.title}>Community Tracks</Text>
+          <TouchableOpacity>
+            <Text style={styles.seeAllBtnText}>See All</Text>
+          </TouchableOpacity>
+        </View>
 
         <FlatList
           data={meals}
           numColumns={2}
-          style={{ marginBottom: 20, }}
+          style={{ marginBottom: 20 }}
           keyExtractor={meals => meals.id}
           renderItem={({ item }) => (
             <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}>
               <Image source={require('../assets/icons/meal.png')} style={styles.icons} />
               <View style={styles.info}>
-                <Text style={styles.mealTitle}>Fiber Plan</Text>
+                <Text style={styles.mealTitle}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >{item.title}</Text>
               </View>
             </TouchableOpacity>
           )}
         />
-
       </View>
+
+      <TouchableOpacity style={styles.createMeal} onPress={() => navigation.navigate('TrackDetails')} >
+        <Text style={[styles.mealTitle, { width: '100%', textAlign: 'center', fontSize: 18 }]}>Create your own plan</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -90,6 +104,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     padding: 15,
+
+    justifyContent: 'space-between'
 
   },
   contentList: {
@@ -104,18 +120,28 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
+  //TItle headers
+  titleHeaders: {
+    width: '100%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
   mealsContainer: {
-    width: Dimensions.get('screen').width / 1.2,
+    width: Dimensions.get('screen').width - 30,
     // width: '100%',
     height: 100,
     marginRight: 10,
     borderRadius: 10,
-    backgroundColor: '#ff304f50',
+    backgroundColor: '#00c49a70',
 
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+
+    overflow: 'hidden'
   },
   icons: {
     width: 64,
@@ -126,6 +152,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   mealTitle: {
+    width: 70,
     fontSize: 15,
     color: '#333',
     fontWeight: 'bold'
@@ -136,6 +163,22 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 0,
     margin: 5,
+  },
+
+  // Buttons
+  seeAllBtnText: {
+    color: '#333'
+  },
+
+  createMeal: {
+    width: '100%',
+    height: 100,
+    backgroundColor: '#00c49a40',
+    borderRadius: 10,
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
   }
 });
 

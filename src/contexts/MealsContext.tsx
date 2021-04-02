@@ -72,7 +72,6 @@ export function MealsProvider({ children }: Props) {
   async function getMeals() {
     const meals = await api.get('/meals');
     setMeals(meals.data);
-    console.log(meals)
   }
 
   useEffect(() => {

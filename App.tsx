@@ -7,6 +7,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MealsProvider } from './src/contexts/MealsContext';
 import { Meals } from './src/screen/Meals';
 import { TrackDetails } from './src/screen/TrackDetails';
+import { Profile } from './src/screen/Profile';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -14,9 +15,10 @@ const Tab = createMaterialBottomTabNavigator();
 function Bottom() {
   return (
     <Tab.Navigator
-      barStyle={{ backgroundColor: '#ff304f' }}
+      barStyle={{ backgroundColor: '#f7f7f7' }}
     >
       <Tab.Screen name="Meals" component={Meals} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   )
 }
