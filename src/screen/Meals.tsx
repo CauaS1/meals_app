@@ -1,6 +1,6 @@
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
-import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView, Dimensions } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView, Dimensions } from 'react-native';
 
 import { MealsContext } from '../contexts/MealsContext';
 
@@ -9,43 +9,37 @@ interface Props {
 }
 
 export function Meals({ navigation }: Props) {
+  const { meals } = useContext(MealsContext);
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" translucent={false} />
 
-      <Text style={styles.title}>Default Tracks</Text>
-      <ScrollView style={styles.contentList} horizontal  >
 
-        <TouchableOpacity style={styles.mealsContainer} onPress={() => navigation.navigate('TrackDetails')} >
-          <Image
-            source={require('../assets/icons/egg.png')}
-            style={styles.icons}
-          />
-          <View style={styles.info}>
-            <Text style={styles.infoText}>Light Meal</Text>
-          </View>
-        </TouchableOpacity>
+      <View style={styles.contentList}>
+        <Text style={styles.title}>Default Tracks</Text>
 
-        <View style={styles.mealsContainer}>
-          <Image
-            source={require('../assets/icons/meal.png')}
-            style={styles.icons}
-          />
-          <View style={styles.info}>
-            <Text style={styles.infoText}>Medium Meal</Text>
-          </View>
-        </View>
+        <FlatList
+          data={meals}
+          style={{ marginBottom: 20, }}
+          horizontal
+          keyExtractor={meals => meals.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.mealsContainer} onPress={() => navigation.navigate('TrackDetails')} >
+              <Image
+                source={require('../assets/icons/egg.png')}
+                style={styles.icons}
+              />
+              <View style={styles.info}>
+                <Text style={styles.infoText}>Light Meal</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
 
-        <View style={styles.mealsContainer}>
-          <Image
-            source={require('../assets/icons/meal.png')}
-            style={styles.icons}
-          />
-          <View style={styles.info}>
-            <Text style={styles.infoText}>Medium Meal</Text>
-          </View>
-        </View>
-      </ScrollView>
+        <Text style={styles.title}>Community Tracks</Text>
+
+      </View>
     </View>
   )
 }
@@ -56,15 +50,13 @@ LATER USE THE EXTENDED STYLESHEET
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: '#fff',
-    padding: 15, 
+    padding: 15,
 
   },
   contentList: {
-    // marginTop: 15,
-    // padding: 15,
-    // height: 400,
+    width: '100%'
   },
 
   title: {
@@ -76,6 +68,7 @@ const styles = StyleSheet.create({
 
   mealsContainer: {
     width: Dimensions.get('screen').width / 1.2,
+    // width: '100%',
     height: 100,
     marginRight: 10,
     borderRadius: 10,
