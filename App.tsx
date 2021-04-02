@@ -1,21 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
+import { MealsProvider } from './src/contexts/MealsContext';
+import { Meals } from './src/screen/Meals';
+import { TrackDetails } from './src/screen/TrackDetails';
+
+const Stack = createStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
+
+function Bottom() {
+  return (
+    <Tab.Navigator
+      barStyle={{ backgroundColor: '#ff304f' }}
+    >
+      <Tab.Screen name="Meals" component={Meals} />
+    </Tab.Navigator>
+  )
+}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MealsProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={Bottom} />
+          <Stack.Screen name="TrackDetails" component={TrackDetails} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MealsProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
