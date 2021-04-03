@@ -2,7 +2,6 @@ import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/s
 import React, { useContext, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView, Dimensions } from 'react-native';
 
-import Constant from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { MealsContext } from '../contexts/MealsContext';
 
@@ -78,7 +77,21 @@ export function Meals({ navigation }: Props) {
           style={{ marginBottom: 20 }}
           keyExtractor={meals => meals.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}>
+            <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}  
+              onPress={() => {
+                navigation.navigate('TrackDetails', {
+                  title: item.title,
+                  breakfast: item.breakfast,
+                  breakfast_time: item.breakfast_time,
+                  lunch: item.lunch,
+                  lunch_time: item.lunch_time,
+                  snack: item.snack,
+                  stack_time: item.snack_time,
+                  dinner: item.dinner,
+                  dinner_time: item.dinner_time,
+                })
+              }}
+            >
               <Image source={require('../assets/icons/meal.png')} style={styles.icons} />
               <View style={styles.info}>
                 <Text style={styles.mealTitle}

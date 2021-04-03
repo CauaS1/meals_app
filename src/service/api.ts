@@ -1,5 +1,6 @@
+import { COMPUTER_API } from '@env';
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://apiIP.10:5500'
+  baseURL: COMPUTER_API
 });
