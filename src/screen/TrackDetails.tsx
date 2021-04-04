@@ -1,8 +1,7 @@
-import { NavigationProp } from '@react-navigation/core';
-import { Router } from '@react-navigation/routers';
-import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+
+import Feather from 'react-native-vector-icons/Feather';
 
 interface Props {
   route: any;
@@ -34,7 +33,6 @@ export function TrackDetails({ route }: Props) {
         <View>
           <View style={styles.mealDetails}>
             <Text>{breakfast}</Text>
-            <Text>{breakfast_time}</Text>
           </View>
 
           <View style={styles.mealDetails2}>
@@ -58,10 +56,13 @@ export function TrackDetails({ route }: Props) {
             source={{ uri: 'https://github.com/cauas1.png' }}
           />
           <View style={styles.rightContainer}>
-            <Text>CauaS1</Text>
+            <View>
+              <Text style={styles.userName}>CauaS1</Text>
+              <Text style={styles.userRate}>0 Likes</Text>
+            </View>
 
             <TouchableOpacity style={styles.likeButton}>
-              <Text style={{ fontSize: 20 }}>^</Text>
+              <Feather name="chevron-up" size={25} color="#fff" />
             </TouchableOpacity>
           </View>
         </View>
@@ -139,10 +140,22 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     width: '100%',
-    marginRight: 10,
+    marginLeft: 10,
+
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'relative'
+    position: 'relative',
+  },
+
+  userName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#00c49a70'
+  },
+
+  userRate: {
+    fontSize: 14,
+    color: '#333'
   },
 
   likeButton: {
@@ -151,7 +164,7 @@ const styles = StyleSheet.create({
 
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#00c49a30',
+    backgroundColor: '#00c49a50',
     borderRadius: 18,
 
     position: 'absolute',

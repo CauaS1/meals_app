@@ -9,6 +9,8 @@ import { Meals } from './src/screen/Meals';
 import { TrackDetails } from './src/screen/TrackDetails';
 import { Profile } from './src/screen/Profile';
 
+import Feather from 'react-native-vector-icons/Feather';
+
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
@@ -16,9 +18,19 @@ function Bottom() {
   return (
     <Tab.Navigator
       barStyle={{ backgroundColor: '#f7f7f7' }}
+      inactiveColor="#cacace"
+      activeColor="#00c49a"
     >
-      <Tab.Screen name="Meals" component={Meals} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Meals" component={Meals}  options={{
+        tabBarIcon: ({ color }) => (
+          <Feather name="home" size={24} color={color} />
+        )
+      }} />
+      <Tab.Screen name="Profile" component={Profile} options={{
+        tabBarIcon: ({ color }) => (
+          <Feather name="user" size={24} color={color} />
+        )
+      }} />
     </Tab.Navigator>
   )
 }

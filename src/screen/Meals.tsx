@@ -5,6 +5,8 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, StatusBar, S
 import * as Notifications from 'expo-notifications';
 import { MealsContext } from '../contexts/MealsContext';
 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -77,7 +79,7 @@ export function Meals({ navigation }: Props) {
           style={{ marginBottom: 20 }}
           keyExtractor={meals => meals.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}  
+            <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}
               onPress={() => {
                 navigation.navigate('TrackDetails', {
                   title: item.title,
@@ -105,7 +107,7 @@ export function Meals({ navigation }: Props) {
       </View>
 
       <TouchableOpacity style={styles.createMeal} onPress={() => navigation.navigate('TrackDetails')} >
-        <Text style={[styles.mealTitle, { width: '100%', textAlign: 'center', fontSize: 18 }]}>Create your own plan</Text>
+        <MaterialIcons name="create" size={35} color="#333" />
       </TouchableOpacity>
     </View>
   )
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
 
   createMeal: {
     width: '100%',
-    height: 100,
+    height: 75,
     backgroundColor: '#00c49a40',
     borderRadius: 10,
 
