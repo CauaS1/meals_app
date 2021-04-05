@@ -70,7 +70,7 @@ export function MealsProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
 
   async function getMeals() {
-    const meals = await api.get('/meals');
+    const meals = await api.get('/meals')
     setMeals(meals.data);
   }
 

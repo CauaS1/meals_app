@@ -60,7 +60,7 @@ export function Meals({ navigation }: Props) {
                 style={styles.icons}
               />
               <View style={styles.info}>
-                <Text style={styles.mealTitle}>Light Meal</Text>
+                <Text style={styles.mealTitle}>{item.title}</Text>
               </View>
             </TouchableOpacity>
           )}
@@ -68,7 +68,7 @@ export function Meals({ navigation }: Props) {
 
         <View style={styles.titleHeaders} >
           <Text style={styles.title}>Community Tracks</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Community')} >
             <Text style={styles.seeAllBtnText}>See All</Text>
           </TouchableOpacity>
         </View>
@@ -78,30 +78,35 @@ export function Meals({ navigation }: Props) {
           numColumns={2}
           style={{ marginBottom: 20 }}
           keyExtractor={meals => meals.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}
-              onPress={() => {
-                navigation.navigate('TrackDetails', {
-                  title: item.title,
-                  breakfast: item.breakfast,
-                  breakfast_time: item.breakfast_time,
-                  lunch: item.lunch,
-                  lunch_time: item.lunch_time,
-                  snack: item.snack,
-                  stack_time: item.snack_time,
-                  dinner: item.dinner,
-                  dinner_time: item.dinner_time,
-                })
-              }}
-            >
-              <Image source={require('../assets/icons/meal.png')} style={styles.icons} />
-              <View style={styles.info}>
-                <Text style={styles.mealTitle}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >{item.title}</Text>
-              </View>
-            </TouchableOpacity>
+          renderItem={({ item, index }) => (
+            <>
+              {(index <= 3) ? (
+                <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}
+                  onPress={() => {
+                    navigation.navigate('TrackDetails', {
+                      title: item.title,
+                      breakfast: item.breakfast,
+                      breakfast_time: item.breakfast_time,
+                      lunch: item.lunch,
+                      lunch_time: item.lunch_time,
+                      snack: item.snack,
+                      stack_time: item.snack_time,
+                      dinner: item.dinner,
+                      dinner_time: item.dinner_time,
+                    })
+                  }}
+                >
+                  <Image source={require('../assets/icons/meal.png')} style={styles.icons} />
+                  <View style={styles.info}>
+                    <Text style={styles.mealTitle}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >{item.title}</Text>
+                  </View>
+                </TouchableOpacity>
+              ) : null}
+
+            </>
           )}
         />
       </View>
