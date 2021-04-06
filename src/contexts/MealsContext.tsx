@@ -17,10 +17,11 @@ interface IMeals {
   lunch: string;
   snack: string;
   dinner: string;
+  total_calories: string;
   breakfast_time: Date;
   lunch_time: Date;
   snack_time: Date;
-  dinner_time: Date
+  dinner_time: Date;
 }
 
 const mealsData = [
@@ -31,6 +32,7 @@ const mealsData = [
     lunch: 'Rice, beans and steak',
     snack: 'Any fruit',
     dinner: 'Rice beans, chicken and a salad',
+    total_calories: 1500,
     breakfast_time: new Date(),
     lunch_time: new Date(),
     snack_time: new Date(),
@@ -44,6 +46,7 @@ const mealsData = [
     lunch: 'Rice, beans, salad, potato and a chicken',
     snack: 'Sandwich',
     dinner: 'Rice beans, steak and a salad',
+    total_calories: 1500,
     breakfast_time: new Date(),
     lunch_time: new Date(),
     snack_time: new Date(),
@@ -57,6 +60,7 @@ const mealsData = [
     lunch: 'Rice, sweet potatoes and chicken',
     snack: 'A fruit',
     dinner: 'Rice beans, steak, salad and a juice',
+    total_calories: 1500,
     breakfast_time: new Date(),
     lunch_time: new Date(),
     snack_time: new Date(),

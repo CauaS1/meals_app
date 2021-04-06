@@ -54,7 +54,9 @@ export function Meals({ navigation }: Props) {
           horizontal
           keyExtractor={meals => meals.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.mealsContainer} onPress={() => navigation.navigate('TrackDetails')} >
+            <TouchableOpacity style={styles.mealsContainer} onPress={() => {
+              console.log('fixed it later')
+            }} >
               <Image
                 source={require('../assets/icons/egg.png')}
                 style={styles.icons}
@@ -72,8 +74,10 @@ export function Meals({ navigation }: Props) {
             <Text style={styles.seeAllBtnText}>See All</Text>
           </TouchableOpacity>
         </View>
-
+ 
+              
         <FlatList
+          // Put the caloreis osmewhere
           data={meals}
           numColumns={2}
           style={{ marginBottom: 20 }}
@@ -111,7 +115,7 @@ export function Meals({ navigation }: Props) {
         />
       </View>
 
-      <TouchableOpacity style={styles.createMeal} onPress={() => navigation.navigate('TrackDetails')} >
+      <TouchableOpacity style={styles.createMeal} onPress={() => navigation.navigate('Form')} >
         <MaterialIcons name="create" size={35} color="#333" />
       </TouchableOpacity>
     </View>

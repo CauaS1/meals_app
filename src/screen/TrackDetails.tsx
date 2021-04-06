@@ -33,6 +33,7 @@ export function TrackDetails({ route }: Props) {
         <View>
           <View style={styles.mealDetails}>
             <Text>{breakfast}</Text>
+            <Text>{breakfast_time}</Text>
           </View>
 
           <View style={styles.mealDetails2}>
