@@ -32,11 +32,11 @@ const mealsData = [
     lunch: 'Rice, beans and steak',
     snack: 'Any fruit',
     dinner: 'Rice beans, chicken and a salad',
-    total_calories: 1500,
-    breakfast_time: new Date(),
-    lunch_time: new Date(),
-    snack_time: new Date(),
-    dinner_time: new Date(),
+    total_calories: 1137,
+    breakfast_time: '07:00',
+    lunch_time: '12:00',
+    snack_time: '13:0',
+    dinner_time: '18:00',
   },
 
   {
@@ -46,11 +46,11 @@ const mealsData = [
     lunch: 'Rice, beans, salad, potato and a chicken',
     snack: 'Sandwich',
     dinner: 'Rice beans, steak and a salad',
-    total_calories: 1500,
-    breakfast_time: new Date(),
-    lunch_time: new Date(),
-    snack_time: new Date(),
-    dinner_time: new Date(),
+    total_calories: 1496,
+    breakfast_time: '07:00',
+    lunch_time: '12:00',
+    snack_time: '15:00',
+    dinner_time: '18:00',
   },
 
   {
@@ -60,11 +60,11 @@ const mealsData = [
     lunch: 'Rice, sweet potatoes and chicken',
     snack: 'A fruit',
     dinner: 'Rice beans, steak, salad and a juice',
-    total_calories: 1500,
-    breakfast_time: new Date(),
-    lunch_time: new Date(),
-    snack_time: new Date(),
-    dinner_time: new Date()
+    total_calories: 1327,
+    breakfast_time: '07:00',
+    lunch_time: '12:00',
+    snack_time: '15:00',
+    dinner_time: '18:00'
   }
 ]
 

@@ -55,7 +55,19 @@ export function Meals({ navigation }: Props) {
           keyExtractor={meals => meals.id}
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.mealsContainer} onPress={() => {
-              console.log('fixed it later')
+              navigation.navigate('TrackDetails', {
+                title: item.title,
+                breakfast: item.breakfast,
+                breakfast_time: item.breakfast_time,
+                lunch: item.lunch,
+                lunch_time: item.lunch_time,
+                snack: item.snack,
+                stack_time: item.snack_time,
+                dinner: item.dinner,
+                dinner_time: item.dinner_time,
+                total_calories: item.total_calories,
+                appSugestion: true
+              })
             }} >
               <Image
                 source={require('../assets/icons/egg.png')}
@@ -74,10 +86,9 @@ export function Meals({ navigation }: Props) {
             <Text style={styles.seeAllBtnText}>See All</Text>
           </TouchableOpacity>
         </View>
- 
-              
+
+
         <FlatList
-          // Put the caloreis osmewhere
           data={meals}
           numColumns={2}
           style={{ marginBottom: 20 }}
@@ -97,6 +108,8 @@ export function Meals({ navigation }: Props) {
                       stack_time: item.snack_time,
                       dinner: item.dinner,
                       dinner_time: item.dinner_time,
+                      total_calories: item.total_calories,
+                      appSuggestion: false
                     })
                   }}
                 >
@@ -158,7 +171,7 @@ const styles = StyleSheet.create({
     height: 100,
     marginRight: 10,
     borderRadius: 10,
-    backgroundColor: '#00c49a70',
+    backgroundColor: '#00c49a60',
 
     flexDirection: 'row',
     alignItems: 'center',

@@ -17,6 +17,7 @@ export function TrackDetails({ route }: Props) {
     snack_time,
     lunch,
     lunch_time,
+    appSugestion
   } = route.params;
   console.log(title);
   return (
@@ -52,21 +53,25 @@ export function TrackDetails({ route }: Props) {
           </View>
         </View>
 
-        <View style={styles.userInfo}>
-          <Image style={styles.userPhoto}
-            source={{ uri: 'https://github.com/cauas1.png' }}
-          />
-          <View style={styles.rightContainer}>
-            <View>
-              <Text style={styles.userName}>CauaS1</Text>
-              <Text style={styles.userRate}>0 Likes</Text>
-            </View>
 
-            <TouchableOpacity style={styles.likeButton}>
-              <Feather name="chevron-up" size={25} color="#fff" />
-            </TouchableOpacity>
+        {!appSugestion ? (
+          <View style={styles.userInfo}>
+            <Image style={styles.userPhoto}
+              source={{ uri: 'https://github.com/cauas1.png' }}
+            />
+            <View style={styles.rightContainer}>
+              <View>
+                <Text style={styles.userName}>CauaS1</Text>
+                <Text style={styles.userRate}>0 Likes</Text>
+              </View>
+
+              <TouchableOpacity style={styles.likeButton}>
+                <Feather name="chevron-up" size={25} color="#fff" />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        ) : null}
+
       </View>
 
     </View>
