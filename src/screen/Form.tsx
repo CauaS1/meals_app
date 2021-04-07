@@ -11,13 +11,35 @@ export function Form() {
   const [snackTime, setSnackTime] = useState('');
   const [dinnerTime, setDinnerTime] = useState('');
 
+  const [category, setCategory] = useState('');
 
 
-  function hidePicker(time: Date) {
-    setIsTimePickerVisible(false);
+  function checkCategory(time: Date, category: string) {
+    const formatedTime = moment(time).format('h:mm');
 
-    console.log(moment(time).format('h:mm a'))
+    switch (category) {
+      case 'breakfast':
+        setBreakfastTime(formatedTime);
+        break;
+      case 'lunch':
+        setLunchTime(formatedTime);
+        break;
+      case 'snack':
+        setSnackTime(formatedTime);
+        break;
+      case 'dinner':
+        setDinnerTime(formatedTime);
+        break;
+      default:
+        console.log('There was an error!');
+        break;
+    }
   }
+
+  function hidePicker() {
+    setIsTimePickerVisible(false);
+  }
+
 
   function enablePicker() {
     setIsTimePickerVisible(true)
@@ -50,7 +72,10 @@ export function Form() {
         </View>
 
         <View style={styles.hoursForm}>
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]}>
+          <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]} onPress={() => {
+            enablePicker();
+            setCategory('breakfast');
+          }} >
             {!breakfastTime ? (
               <Text style={styles.hourText}>Breakfast Time</Text>
             ) : (
@@ -58,7 +83,10 @@ export function Form() {
             )}
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]}>
+          <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]} onPress={() => {
+            enablePicker();
+            setCategory('lunch');
+          }} >
             {!lunchTime ? (
               <Text style={styles.hourText}>Lunch Time</Text>
             ) : (
@@ -68,7 +96,10 @@ export function Form() {
         </View>
 
         <View style={styles.hoursForm}>
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]}>
+          <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]} onPress={() => {
+            enablePicker();
+            setCategory('snack');
+          }}>
             {!snackTime ? (
               <Text style={styles.hourText}>Snack Time</Text>
             ) : (
@@ -76,7 +107,10 @@ export function Form() {
             )}
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]}>
+          <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]} onPress={() => {
+            enablePicker();
+            setCategory('dinner');
+          }}>
             {!dinnerTime ? (
               <Text style={styles.hourText}>Dinner Time</Text>
             ) : (
@@ -89,13 +123,12 @@ export function Form() {
 
       <Text>{breakfastTime}</Text>
 
-      <Button title="eae" color="royalblue" onPress={enablePicker} />
-
       <DatePickerModal
         isVisible={isTimePickerVisible}
         mode="time"
         onConfirm={time => {
-          hidePicker(time);
+          hidePicker();
+          checkCategory(time, category);
         }}
         onCancel={hidePicker}
       />
