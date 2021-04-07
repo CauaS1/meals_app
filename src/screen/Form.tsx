@@ -3,9 +3,18 @@ import { View, Text, StatusBar, StyleSheet, Image, Dimensions, TextInput, Alert,
 import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import moment from 'moment';
+import { api } from '../service/api';
 
 export function Form() {
+  const [title, setTitle] = useState('');
+  const [calories, setCalories] = useState('');
+  const [breakfast, setBreakfast] = useState('');
+  const [lunch, setLunch] = useState('');
+  const [snack, setSnack] = useState('');
+  const [dinner, setDinner] = useState('');
+
   const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
+
   const [breakfastTime, setBreakfastTime] = useState('');
   const [lunchTime, setLunchTime] = useState('');
   const [snackTime, setSnackTime] = useState('');
@@ -40,9 +49,27 @@ export function Form() {
     setIsTimePickerVisible(false);
   }
 
-
   function enablePicker() {
     setIsTimePickerVisible(true)
+  }
+
+  async function createMeals() {
+    await api.post('/meals', {
+      title: title,
+      total_calories: calories,
+      breakfast: breakfast,
+      lunch: lunch,
+      snack: snack,
+      dinner: dinner,
+      rated: 0,
+
+      breakfast_time: breakfastTime,
+      lunch_time: lunchTime,
+      snack_time: snackTime,
+      dinner_time: dinnerTime
+    }).then(() => console.log('Success!')).catch(err => {
+      console.log('Error:' + err);
+    })
   }
 
   return (
@@ -59,69 +86,90 @@ export function Form() {
       <Text style={styles.title}>Create your meal plan</Text>
 
       <View style={styles.form}>
-        <View style={styles.headerForm} >
-          <TextInput placeholder="Title" style={[styles.headerInputs, { marginRight: 2 }]} />
-          <TextInput placeholder="Caloreis" style={[styles.headerInputs, { marginLeft: 2 }]} />
+        <View style={{ width: '100%' }}>
+          <View style={styles.headerForm} >
+            <TextInput placeholder="Title" style={[styles.headerInputs, { marginRight: 2 }]}
+              value={title}
+              onChangeText={text => setTitle(text)}
+            />
+            <TextInput placeholder="Total caloreis" style={[styles.headerInputs, { marginLeft: 2 }]}
+              value={calories}
+              onChangeText={text => setCalories(text)}
+            />
+          </View>
+
+          <View>
+            <TextInput placeholder="Breakfast" style={[styles.headerInputs, styles.middleInputs]}
+              value={breakfast}
+              onChangeText={text => setBreakfast(text)}
+            />
+            <TextInput placeholder="Lunch" style={[styles.headerInputs, styles.middleInputs]}
+              value={lunch}
+              onChangeText={text => setLunch(text)}
+            />
+            <TextInput placeholder="Snack" style={[styles.headerInputs, styles.middleInputs]}
+              value={snack}
+              onChangeText={text => setSnack(text)}
+            />
+            <TextInput placeholder="Dinner" style={[styles.headerInputs, styles.middleInputs]}
+              value={dinner}
+              onChangeText={text => setDinner(text)}
+            />
+          </View>
+
+          <View style={styles.hoursForm}>
+            <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]} onPress={() => {
+              enablePicker();
+              setCategory('breakfast');
+            }} >
+              {!breakfastTime ? (
+                <Text style={styles.hourText}>Breakfast Time</Text>
+              ) : (
+                <Text style={[styles.hourText, { color: '#000' }]}>{breakfastTime}</Text>
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]} onPress={() => {
+              enablePicker();
+              setCategory('lunch');
+            }} >
+              {!lunchTime ? (
+                <Text style={styles.hourText}>Lunch Time</Text>
+              ) : (
+                <Text style={[styles.hourText, { color: '#000' }]}>{lunchTime}</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.hoursForm}>
+            <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]} onPress={() => {
+              enablePicker();
+              setCategory('snack');
+            }}>
+              {!snackTime ? (
+                <Text style={styles.hourText}>Snack Time</Text>
+              ) : (
+                <Text style={[styles.hourText, { color: '#000' }]}>{snackTime}</Text>
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]} onPress={() => {
+              enablePicker();
+              setCategory('dinner');
+            }}>
+              {!dinnerTime ? (
+                <Text style={styles.hourText}>Dinner Time</Text>
+              ) : (
+                <Text style={[styles.hourText, { color: '#000' }]}>{dinnerTime}</Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <View>
-          <TextInput placeholder="Breakfast" style={[styles.headerInputs, styles.middleInputs]} />
-          <TextInput placeholder="Lunch" style={[styles.headerInputs, styles.middleInputs]} />
-          <TextInput placeholder="Snack" style={[styles.headerInputs, styles.middleInputs]} />
-          <TextInput placeholder="Dinner" style={[styles.headerInputs, styles.middleInputs]} />
-        </View>
-
-        <View style={styles.hoursForm}>
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]} onPress={() => {
-            enablePicker();
-            setCategory('breakfast');
-          }} >
-            {!breakfastTime ? (
-              <Text style={styles.hourText}>Breakfast Time</Text>
-            ) : (
-              <Text style={[styles.hourText, { color: '#000' }]}>{breakfastTime}</Text>
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]} onPress={() => {
-            enablePicker();
-            setCategory('lunch');
-          }} >
-            {!lunchTime ? (
-              <Text style={styles.hourText}>Lunch Time</Text>
-            ) : (
-              <Text style={[styles.hourText, { color: '#000' }]}>{lunchTime}</Text>
-            )}
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.hoursForm}>
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginRight: 2 }]} onPress={() => {
-            enablePicker();
-            setCategory('snack');
-          }}>
-            {!snackTime ? (
-              <Text style={styles.hourText}>Snack Time</Text>
-            ) : (
-              <Text style={[styles.hourText, { color: '#000' }]}>{snackTime}</Text>
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.setHourButtonStyle, { marginLeft: 2 }]} onPress={() => {
-            enablePicker();
-            setCategory('dinner');
-          }}>
-            {!dinnerTime ? (
-              <Text style={styles.hourText}>Dinner Time</Text>
-            ) : (
-              <Text style={[styles.hourText, { color: '#000' }]}>{dinnerTime}</Text>
-            )}
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.button} onPress={createMeals} >
+          <Text style={styles.buttonText}>Create</Text>
+        </TouchableOpacity>
 
       </View>
-
-      <Text>{breakfastTime}</Text>
 
       <DatePickerModal
         isVisible={isTimePickerVisible}
@@ -132,7 +180,6 @@ export function Form() {
         }}
         onCancel={hidePicker}
       />
-
     </View>
   );
 }
@@ -160,11 +207,12 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#333',
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   form: {
     flex: 1,
     marginTop: 15,
+    justifyContent: 'space-between'
   },
   headerForm: {
     width: '100%',
@@ -212,7 +260,21 @@ const styles = StyleSheet.create({
   },
   hourText: {
     color: '#aaa',
+  },
+  button: {
+    width: '100%',
+    height: 40,
+    marginTop: 20,
+    backgroundColor: '#00c49a',
 
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#333',
+    fontWeight: 'bold'
   }
 
 
