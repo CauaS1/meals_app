@@ -12,6 +12,7 @@ import { Profile } from './src/screen/Profile';
 import Feather from 'react-native-vector-icons/Feather';
 import { Community } from './src/screen/Community';
 import { Form } from './src/screen/Form';
+import { Initial } from './src/screen/Initial';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -41,7 +42,10 @@ export default function App() {
   return (
     <MealsProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Inital" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Initial" component={Initial} />
+
+
           <Stack.Screen name="Home" component={Bottom} />
           <Stack.Screen name="TrackDetails" component={TrackDetails} />
           <Stack.Screen name="Community" component={Community} />
