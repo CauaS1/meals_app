@@ -20,7 +20,7 @@ const options = [
 ]
 
 export function Community({ navigation }: Props) {
-  const { meals, searchInputFunction, searchInputValue, updateFunction } = useContext(CommunityContext);
+  const { meals, searchInputFunction, searchInputValue, updateFunction, optionFunction } = useContext(CommunityContext);
 
   return (
     <View style={styles.container}>
@@ -53,12 +53,9 @@ export function Community({ navigation }: Props) {
           cancelButtonText="Cancel"
           selectButtonText="Select"
           colorTheme="#00c49a"
-        // onSelect={(data: any) => {
-        //   setState({ data })
-        // }}
-        // onRemoveItem={(data: any) => {
-        //   setState({ data })
-        // }}
+          onSelect={(data: number) => {
+            optionFunction(data)
+          }}
         />
 
         <TouchableOpacity style={styles.searchButton} onPress={() => {

@@ -24,6 +24,7 @@ interface CommunityContextData {
   meals: IMeals[];
   searchInputFunction: (text: string) => void;
   updateFunction: (value: boolean) => void;
+  optionFunction: (value: number) => void;
 }
 
 export const CommunityContext = createContext({} as CommunityContextData);
@@ -32,14 +33,25 @@ export function CommunityProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [update, setUpdate] = useState(false);
+  const [options, setOptions] = useState('');
 
   useEffect(() => {
-    getMeals();
+    if (searchInputValue === "") {
+      getMeals();
+    } else {
+      if (searchInputValue !== "") {
+        byName()
+      } else if (options !== null) {
+        byCalories()
+      }
+    } 
+
     setUpdate(false);
     console.log('Updated!!');
-
+    console.log(options);
   }, [update])
 
+  // API Features
   async function getMeals() {
     const meals = await api.get('/meals');
 
@@ -48,8 +60,17 @@ export function CommunityProvider({ children }: Props) {
 
   async function byName() {
     const name = await api.get(`/meals/title/${searchInputValue}`);
+    setMeals(name.data);
   }
 
+  async function byCalories() {
+    const calories = await api.get(`/meals/calories/${options}`);
+    setMeals(calories.data);
+    console.log('eae')
+  }
+
+
+  // UseState functions
   function searchInputFunction(text: string) {
     setSearchInputValue(text);
   }
@@ -58,15 +79,26 @@ export function CommunityProvider({ children }: Props) {
     setUpdate(value);
   }
 
+  function optionFunction(value: number) {
+    if (value == 1) {
+      setOptions('default');
+    } else if (value == 2) {
+      setOptions('asc');
+    } else if (value == 3) {
+      setOptions('desc');
+    } 
+    console.log("options: " + options);
+  }
+
   return (
     <CommunityContext.Provider value={{
       meals,
       searchInputFunction,
       searchInputValue,
-      updateFunction
+      updateFunction,
+      optionFunction
     }} >
-      { children }
+      { children}
     </CommunityContext.Provider>
-
   )
 }
