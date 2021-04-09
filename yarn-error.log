@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add react-moment @types/react-moment
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add @types/react-native-selee-select-two
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-moment: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-native-selee-select-two: Not found
       at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66988:18)
       at Request.self.callback (/usr/share/yarn/lib/cli.js:140749:22)
       at Request.emit (events.js:198:13)
@@ -48,18 +48,20 @@ npm manifest:
       "expo-constants": "~9.3.3",
       "expo-notifications": "~0.8.2",
       "expo-status-bar": "~1.0.3",
+      "moment": "^2.29.1",
       "react": "16.13.1",
       "react-dom": "16.13.1",
-      "react-moment": "^1.1.1",
       "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
       "react-native-dotenv": "^2.5.3",
       "react-native-extended-stylesheet": "^0.12.0",
       "react-native-gesture-handler": "^1.10.3",
+      "react-native-modal": "^11.7.0",
       "react-native-modal-datetime-picker": "^9.2.0",
       "react-native-paper": "^4.7.2",
       "react-native-reanimated": "^2.1.0",
       "react-native-safe-area-context": "^3.2.0",
       "react-native-screens": "^3.0.0",
+      "react-native-select-two": "^1.1.0",
       "react-native-vector-icons": "^8.1.0",
       "react-native-web": "~0.13.12"
     },
@@ -4986,6 +4988,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.5.tgz#789be686deb3149e7df2b663d2bc4392bc3284fb"
     integrity sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==
   
+  moment@^2.29.1:
+    version "2.29.1"
+    resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+    integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+  
   ms@2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -5597,10 +5604,12 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
     integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
   
-  react-moment@^1.1.1:
-    version "1.1.1"
-    resolved "https://registry.yarnpkg.com/react-moment/-/react-moment-1.1.1.tgz#5fe9fb257039590c804e2b3aedfc3ceb0a6ffb16"
-    integrity sha512-WjwvxBSnmLMRcU33do0KixDB+9vP3e84eCse+rd+HNklAMNWyRgZTDEQlay/qK6lcXFPRuEIASJTpEt6pyK7Ww==
+  react-native-animatable@1.3.3:
+    version "1.3.3"
+    resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
+    integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
+    dependencies:
+      prop-types "^15.7.2"
   
   react-native-dotenv@^2.5.3:
     version "2.5.3"
@@ -5640,6 +5649,14 @@ Lockfile:
     dependencies:
       prop-types "^15.7.2"
   
+  react-native-modal@^11.7.0:
+    version "11.7.0"
+    resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.7.0.tgz#6637d757eeac6eda85f7017a9dfdee0c0fe3a34c"
+    integrity sha512-0AeAugUrn12DaJK+k2XGmt8ZIUyWgl1nRdipfwHZDnzFSM8g1oqpf7rHxjOqhimHtmzSj4xJ//ZOn1DWe9aC5Q==
+    dependencies:
+      prop-types "^15.6.2"
+      react-native-animatable "1.3.3"
+  
   react-native-paper@^4.7.2:
     version "4.7.2"
     resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.7.2.tgz#a40d1da87af5b030d45b525313cd703d490876ff"
@@ -5673,6 +5690,11 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.0.0.tgz#ee4c2d69abf7411603868b57214feec5e8f637fa"
     integrity sha512-35II5oxTaVp3OP8y0eLPOPpQkxG4fRKQ+dL1YSE1we5kCZFOU0l/Rn0T79HbyUu1LPwUZr6lZupPs0ULnRyMuQ==
+  
+  react-native-select-two@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/react-native-select-two/-/react-native-select-two-1.1.0.tgz#86848ddcb63f83ae077ab5b1f7532ed0ca5a0fdf"
+    integrity sha512-lYZKwQI8qkxn/82Z9P0fIeH8YtozQT8+u2jqbC6nPRqCUzdVqSr945InMuoVl3/jJHgyrNaIksdEjXLuAikbcg==
   
   react-native-vector-icons@^8.1.0:
     version "8.1.0"

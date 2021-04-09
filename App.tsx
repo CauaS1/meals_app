@@ -15,6 +15,7 @@ import { Form } from './src/screen/Form';
 import { Initial } from './src/screen/Initial';
 import { Register } from './src/screen/Register';
 import { Login } from './src/screen/Login';
+import { CommunityProvider } from './src/contexts/CommunityContext';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -44,18 +45,18 @@ export default function App() {
   return (
     <MealsProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <CommunityProvider>
+        <Stack.Navigator initialRouteName="Community" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Initial" component={Initial} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Login" component={Login} />
 
-
-
-          <Stack.Screen name="Home" component={Bottom} />
+         <Stack.Screen name="Home" component={Bottom} />
           <Stack.Screen name="TrackDetails" component={TrackDetails} />
           <Stack.Screen name="Community" component={Community} />
           <Stack.Screen name="Form" component={Form} />
         </Stack.Navigator>
+        </CommunityProvider>
       </NavigationContainer>
     </MealsProvider>
   );
