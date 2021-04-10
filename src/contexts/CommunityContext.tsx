@@ -19,6 +19,10 @@ interface IMeals {
   dinner_time: Date;
 }
 
+interface ICalories {
+  meal_calories: IMeals[];
+}
+
 interface CommunityContextData {
   searchInputValue: string;
   meals: IMeals[];
@@ -33,22 +37,25 @@ export function CommunityProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [update, setUpdate] = useState(false);
-  const [options, setOptions] = useState('');
+  const [options, setOptions] = useState('default');
 
   useEffect(() => {
-    if (searchInputValue === "") {
+    if (searchInputValue === "" && options === "default") {
       getMeals();
+      console.log('all')
     } else {
       if (searchInputValue !== "") {
         byName()
+        console.log('name')
       } else if (options !== null) {
         byCalories()
+        console.log('kcal')
       }
-    } 
+    }
 
-    setUpdate(false);
-    console.log('Updated!!');
+
     console.log(options);
+    setUpdate(false);
   }, [update])
 
   // API Features
@@ -65,10 +72,12 @@ export function CommunityProvider({ children }: Props) {
 
   async function byCalories() {
     const calories = await api.get(`/meals/calories/${options}`);
-    setMeals(calories.data);
-    console.log('eae')
+    const list: IMeals[] = [];
+    calories.data.meal_calories.map((data: IMeals) => {
+      list.push(data);
+    })
+    setMeals(list);
   }
-
 
   // UseState functions
   function searchInputFunction(text: string) {
@@ -80,13 +89,11 @@ export function CommunityProvider({ children }: Props) {
   }
 
   function optionFunction(value: number) {
-    if (value == 1) {
-      setOptions('default');
-    } else if (value == 2) {
+    if (value == 2) {
       setOptions('asc');
     } else if (value == 3) {
       setOptions('desc');
-    } 
+    }
     console.log("options: " + options);
   }
 
