@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
+import React, { ReactNode, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, TextInput } from 'react-native';
+import { api } from '../service/api';
 
-export function Login() {
+interface Props {
+  navigation: StackNavigationHelpers;
+}
+
+export function Login({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  async function login() {
+    await api.post('/login', {
+      email: email,
+      password: password
+    }).then(() => {
+      console.log('Logged!')
+      navigation.navigate('Home');
+    }).catch(err => console.log('Error: ' + err))
+  }
 
   return (
     <View style={styles.container}>
@@ -14,16 +30,18 @@ export function Login() {
       <View style={styles.form}>
         <TextInput placeholder="Email" style={styles.inputs}
           value={email}
+          autoCapitalize="none"
           onChangeText={text => setEmail(text)}
         />
         <TextInput placeholder="Password" style={styles.inputs} 
           value={password}
+          secureTextEntry
           onChangeText={text => setPassword(text)}
         />
       </View>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.btnText}>Create account</Text>
+      <TouchableOpacity style={styles.button} onPress={login}>
+        <Text style={styles.btnText}>Login</Text>
       </TouchableOpacity>
     </View>
   )

@@ -1,9 +1,25 @@
+import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, TextInput } from 'react-native';
+import { api } from '../service/api';
 
-export function Register() {
+interface Props {
+  navigation: StackNavigationHelpers
+}
+
+export function Register({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  async function register() {
+    await api.post('/register', {
+      email: email,
+      password: password
+    }).then(() => {
+      console.log('Registered!');
+      navigation.navigate('Login');
+    }).catch(err => console.log('Error: ' + err))
+  }
 
   return (
     <View style={styles.container}>
@@ -13,16 +29,18 @@ export function Register() {
 
       <View style={styles.form}>
         <TextInput placeholder="Email" style={styles.inputs}
+          autoCapitalize="none"
           value={email}
           onChangeText={text => setEmail(text)}
         />
         <TextInput placeholder="Password" style={styles.inputs} 
           value={password}
+          secureTextEntry
           onChangeText={text => setPassword(text)}
         />
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={register}>
         <Text style={styles.btnText}>Create account</Text>
       </TouchableOpacity>
     </View>
