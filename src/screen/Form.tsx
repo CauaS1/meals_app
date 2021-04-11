@@ -4,8 +4,13 @@ import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import moment from 'moment';
 import { api } from '../service/api';
+import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 
-export function Form() {
+interface Props {
+  navigation: StackNavigationHelpers;
+}
+
+export function Form({ navigation }: Props) {
   const [title, setTitle] = useState('');
   const [calories, setCalories] = useState('');
   const [breakfast, setBreakfast] = useState('');
@@ -67,7 +72,23 @@ export function Form() {
       lunch_time: lunchTime,
       snack_time: snackTime,
       dinner_time: dinnerTime
-    }).then(() => console.log('Success!')).catch(err => {
+    }).then(() => {
+      console.log('Success!');
+      setTitle('');
+      setCalories('');
+      setBreakfast('');
+      setLunch('');
+      setSnack('');
+      setDinner('');
+      
+      setBreakfastTime('');
+      setLunchTime('');
+      setSnackTime('');
+      setDinnerTime('');
+
+      navigation.navigate('Home');
+
+    }).catch(err => {
       console.log('Error:' + err);
     })
   }

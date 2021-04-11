@@ -10,9 +10,11 @@ interface Props {
 export function Register({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   async function register() {
     await api.post('/register', {
+      name: name,
       email: email,
       password: password
     }).then(() => {
@@ -28,6 +30,10 @@ export function Register({ navigation }: Props) {
       <Text style={styles.caption}>Create an account to have access</Text>
 
       <View style={styles.form}>
+      <TextInput placeholder="Name" style={styles.inputs}
+          value={name}
+          onChangeText={text => setName(text)}
+        />
         <TextInput placeholder="Email" style={styles.inputs}
           autoCapitalize="none"
           value={email}
