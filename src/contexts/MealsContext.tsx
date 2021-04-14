@@ -22,6 +22,7 @@ interface IMeals {
   lunch_time: Date;
   snack_time: Date;
   dinner_time: Date;
+  account_id: string;
 }
 
 const mealsData = [
@@ -72,7 +73,6 @@ export const MealsContext = createContext({} as MealsContextData);
 
 export function MealsProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
-  const [name, setName] = useState('');
 
   async function getMeals() {
     const meals = await api.get('/meals');
@@ -81,6 +81,7 @@ export function MealsProvider({ children }: Props) {
 
   useEffect(() => {
     getMeals();
+    console.log(meals)
   }, []);
 
   return (

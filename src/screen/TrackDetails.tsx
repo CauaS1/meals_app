@@ -17,6 +17,7 @@ export function TrackDetails({ route }: Props) {
     snack_time,
     lunch,
     lunch_time,
+    account_id,
     appSugestion
   } = route.params;
   console.log(title);
@@ -61,7 +62,7 @@ export function TrackDetails({ route }: Props) {
             />
             <View style={styles.rightContainer}>
               <View>
-                <Text style={styles.userName}>CauaS1</Text>
+                <Text style={styles.userName}>{account_id}</Text>
                 <Text style={styles.userRate}>0 Likes</Text>
               </View>
 
