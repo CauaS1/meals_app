@@ -17,10 +17,10 @@ export function TrackDetails({ route }: Props) {
     snack_time,
     lunch,
     lunch_time,
-    account_id,
+    users,
+    rated,
     appSugestion
   } = route.params;
-  console.log(title);
   return (
     <View style={styles.container}>
       <View style={{ width: '100%', alignItems: 'center' }}>
@@ -62,8 +62,8 @@ export function TrackDetails({ route }: Props) {
             />
             <View style={styles.rightContainer}>
               <View>
-                <Text style={styles.userName}>{account_id}</Text>
-                <Text style={styles.userRate}>0 Likes</Text>
+                <Text style={styles.userName}>{users.name}</Text>
+                <Text style={styles.userRate}>{rated} Likes</Text>
               </View>
 
               <TouchableOpacity style={styles.likeButton}>

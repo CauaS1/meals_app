@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StatusBar, StyleSheet, Image, Dimensions, TextInput, Alert, Button, TouchableOpacity } from 'react-native';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import moment from 'moment';
+import Storage from 'react-native-storage';
 import { api } from '../service/api';
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 
@@ -27,6 +28,15 @@ export function Form({ navigation }: Props) {
 
   const [category, setCategory] = useState('');
 
+  useEffect(() => {
+    console.log('-----')
+    console.log(global.userStorage)
+    console.log('-----')
+  }, [])
+
+  function getStorage() {
+    
+  }
 
   function checkCategory(time: Date, category: string) {
     const formatedTime = moment(time).format('h:mm');
@@ -71,7 +81,10 @@ export function Form({ navigation }: Props) {
       breakfast_time: breakfastTime,
       lunch_time: lunchTime,
       snack_time: snackTime,
-      dinner_time: dinnerTime
+      dinner_time: dinnerTime,
+      users: global.userStorage
+
+    
     }).then(() => {
       console.log('Success!');
       setTitle('');

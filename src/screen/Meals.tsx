@@ -66,7 +66,7 @@ export function Meals({ navigation }: Props) {
                 dinner: item.dinner,
                 dinner_time: item.dinner_time,
                 total_calories: item.total_calories,
-                appSugestion: true
+                appSugestion: true,
               })
             }} >
               <Image
@@ -109,6 +109,8 @@ export function Meals({ navigation }: Props) {
                       dinner: item.dinner,
                       dinner_time: item.dinner_time,
                       total_calories: item.total_calories,
+                      rated: item.rated,
+                      users: item.users,
                       appSuggestion: false
                     })
                   }}

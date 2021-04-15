@@ -16,7 +16,7 @@ export function Register({ navigation }: Props) {
     await api.post('/register', {
       name: name,
       email: email,
-      password: password
+      password: password,
     }).then(() => {
       console.log('Registered!');
       navigation.navigate('Login');

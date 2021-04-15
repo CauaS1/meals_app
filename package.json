@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "3.0.4",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/material-bottom-tabs": "^5.3.14",
@@ -33,6 +34,7 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.0.0",
     "react-native-select-two": "^1.1.0",
+    "react-native-storage": "^1.0.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12"
   },

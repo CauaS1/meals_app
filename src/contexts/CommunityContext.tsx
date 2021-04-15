@@ -1,6 +1,9 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { api } from "../service/api";
 
+import Storage from 'react-native-storage';
+import AsyncStorage from '@react-native-community/async-storage';
+
 interface Props {
   children: ReactNode;
 }
@@ -23,6 +26,13 @@ interface ICalories {
   meal_calories: IMeals[];
 }
 
+interface IUser {
+  name: string;
+  email: string;
+  id: number;
+  photo: string
+}
+
 interface CommunityContextData {
   searchInputValue: string;
   meals: IMeals[];
@@ -31,32 +41,60 @@ interface CommunityContextData {
   optionFunction: (value: number) => void;
 }
 
+const storage = new Storage({
+  size: 1000,
+  storageBackend: AsyncStorage,
+  defaultExpires: 60 * 2,
+  enableCache: true,
+});
+
+
 export const CommunityContext = createContext({} as CommunityContextData);
 
 export function CommunityProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [update, setUpdate] = useState(false);
   const [options, setOptions] = useState('default');
+
+  const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     if (searchInputValue === "" && options === "default") {
       getMeals();
-      console.log('all')
     } else {
       if (searchInputValue !== "") {
         byName()
-        console.log('name')
       } else if (options !== null) {
         byCalories()
-        console.log('kcal')
       }
     }
 
+    saveStorage();
+    // checkIfUserIsConnected();
+  }, [])
 
-    console.log(options);
-    setUpdate(false);
-  }, [update])
+  async function saveStorage() {
+    await api.get('/check').then(userConnected => {
+
+      const user_data = userConnected.data;
+
+      storage.save({
+        key: 'userData',
+        data: {
+          name: user_data.name,
+          id: user_data.id,
+          email: user_data.email,
+          photo: user_data.photo
+        },
+
+        expires: 60 * 60 * 2
+      });
+    });
+
+
+    global.userStorage = storage.cache.userData.rawData;
+  }
+
 
   // API Features
   async function getMeals() {
@@ -95,6 +133,10 @@ export function CommunityProvider({ children }: Props) {
       setOptions('desc');
     }
     console.log("options: " + options);
+  }
+
+  async function checkIfUserIsConnected() {
+
   }
 
   return (
