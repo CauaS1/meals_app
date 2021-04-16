@@ -31,7 +31,7 @@ export function Profile() {
   return (
     <View style={styles.container}>
       <StatusBar translucent={false} backgroundColor="#00c4a9" barStyle="light-content" />
-      <WavyHeader />
+      <WavyHeader customHeight={200} customTop={170} />
 
       <View style={styles.imgContainer}>
         {userData.photo === 'not setted' ? (
