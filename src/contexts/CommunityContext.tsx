@@ -37,7 +37,6 @@ interface CommunityContextData {
   searchInputValue: string;
   meals: IMeals[];
   searchInputFunction: (text: string) => void;
-  updateFunction: (value: boolean) => void;
   optionFunction: (value: number) => void;
 }
 
@@ -55,8 +54,6 @@ export function CommunityProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [options, setOptions] = useState('default');
-
-  const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     if (searchInputValue === "" && options === "default") {
@@ -91,7 +88,6 @@ export function CommunityProvider({ children }: Props) {
       });
     });
 
-
     global.userStorage = storage.cache.userData.rawData;
   }
 
@@ -122,10 +118,6 @@ export function CommunityProvider({ children }: Props) {
     setSearchInputValue(text);
   }
 
-  function updateFunction(value: boolean) {
-    setUpdate(value);
-  }
-
   function optionFunction(value: number) {
     if (value == 2) {
       setOptions('asc');
@@ -144,7 +136,6 @@ export function CommunityProvider({ children }: Props) {
       meals,
       searchInputFunction,
       searchInputValue,
-      updateFunction,
       optionFunction
     }} >
       { children}

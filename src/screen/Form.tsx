@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StatusBar, StyleSheet, Image, Dimensions, TextInput, Alert, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, Image, Dimensions, TextInput, Alert, Button, TouchableOpacity, ScrollView } from 'react-native';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import moment from 'moment';
@@ -107,7 +107,7 @@ export function Form({ navigation }: Props) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <StatusBar translucent={false} backgroundColor="#fff" barStyle="dark-content" />
 
       <View style={styles.imgContainer}>
@@ -214,7 +214,7 @@ export function Form({ navigation }: Props) {
         }}
         onCancel={hidePicker}
       />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 10,
+    // padding: 10,
   },
 
   //Image
@@ -246,6 +246,7 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     marginTop: 15,
+    padding: 10,
     justifyContent: 'space-between'
   },
   headerForm: {

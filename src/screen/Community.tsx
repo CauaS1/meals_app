@@ -20,7 +20,7 @@ const options = [
 ]
 
 export function Community({ navigation }: Props) {
-  const { meals, searchInputFunction, searchInputValue, updateFunction, optionFunction } = useContext(CommunityContext);
+  const { meals, searchInputFunction, searchInputValue, optionFunction } = useContext(CommunityContext);
 
   return (
     <View style={styles.container}>
@@ -60,7 +60,6 @@ export function Community({ navigation }: Props) {
 
         <TouchableOpacity style={styles.searchButton} onPress={() => {
           searchInputFunction(searchInputValue);
-          updateFunction(true);
         }} >
           <Feather name="chevron-right" color="#fff" size={23} />
         </TouchableOpacity>
