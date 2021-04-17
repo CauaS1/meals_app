@@ -2,40 +2,16 @@ import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/s
 import React, { useContext, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView, Dimensions } from 'react-native';
 
-import * as Notifications from 'expo-notifications';
 import { MealsContext } from '../contexts/MealsContext';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false
-  })
-})
 
 interface Props {
   navigation: StackNavigationHelpers;
 }
 
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: 'You got an email! 📬',
-      body: "You need to get rid of chocolates",
-      data: { data: new Date().setSeconds(5) }
-    },
-    trigger: { seconds: 2 }
-  })
-}
-
 export function Meals({ navigation }: Props) {
   const { meals, mealsData } = useContext(MealsContext);
-
-  useEffect(() => {
-    // schedulePushNotification();
-  }, [])
 
   return (
     <View style={styles.container}>

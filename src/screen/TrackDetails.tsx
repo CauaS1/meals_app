@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
+import { MealsContext } from '../contexts/MealsContext';
 
 interface Props {
   route: any;
@@ -21,6 +22,10 @@ export function TrackDetails({ route }: Props) {
     rated,
     appSugestion
   } = route.params;
+
+  const { notificationSchedule } = useContext(MealsContext);
+
+  console.log(breakfast_time[0] + breakfast_time[1]);
   return (
     <View style={styles.container}>
       <View style={{ width: '100%', alignItems: 'center' }}>
@@ -57,9 +62,16 @@ export function TrackDetails({ route }: Props) {
 
         {!appSugestion ? (
           <View style={styles.userInfo}>
-            <Image style={styles.userPhoto}
-              source={{ uri: 'https://github.com/cauas1.png' }}
-            />
+            { users.photo === 'not setted' ? (
+              <View style={[styles.userPhoto, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
+                <Feather name="user" color="#00c49a" size={28} />
+              </View>
+            ) : (
+              <Image style={styles.userPhoto}
+                source={{ uri: users.photo }}
+              />
+            )}
+
             <View style={styles.rightContainer}>
               <View>
                 <Text style={styles.userName}>{users.name}</Text>
@@ -75,6 +87,11 @@ export function TrackDetails({ route }: Props) {
 
       </View>
 
+      <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', height: 40, }}>
+        <TouchableOpacity style={styles.setPlanButton} onPress={() => notificationSchedule(5,0)} >
+          <Text style={{ color: '#00c49a', fontWeight: '700' }}>Set this Plan</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -82,7 +99,7 @@ export function TrackDetails({ route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   image: {
     width: Dimensions.get('screen').width / 1.7,
@@ -177,6 +194,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 70,
+  },
+  setPlanButton: {
+    width: '60%',
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 
 });
