@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, StatusBar, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, StatusBar, FlatList, Alert } from 'react-native';
+
+import * as ImagePicker from 'expo-image-picker';
+
 
 import Feather from 'react-native-vector-icons/Feather';
 import { WavyHeader } from '../components/WavyHeader';
@@ -15,13 +18,35 @@ interface IMeals {
 export function Profile() {
   const [userInfo, setUserInfo] = useState<NodeJS.Global>();
   const [meals, setMeals] = useState<IMeals[]>([])
+  const [userPhoto, setUserPhoto] = useState('');
 
   const userData = global.userStorage;
 
+  //Get User Meals
   async function getMeals() {
     await api.get('/meals').then(meals => {
       setMeals(meals.data);
     })
+  }
+
+  async function setPhoto() {
+    const { status, canAskAgain } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Access Denied!', 'You must give access to set a profile photo');
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      quality: 1,
+      allowsEditing: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images
+    });
+
+    console.log(result)
+
+    if (!result.cancelled) {
+      setUserPhoto(result.uri);
+    }
   }
 
   useEffect(() => {
@@ -34,7 +59,7 @@ export function Profile() {
       <WavyHeader customHeight={200} customTop={170} />
 
       <View style={styles.imgContainer}>
-        {userData.photo === 'not setted' ? (
+        {/* {userData.photo === 'not seted' ? (
           <>
             <View style={[styles.img, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
               <Feather name="user" color="#00c49a" size={60} />
@@ -43,7 +68,6 @@ export function Profile() {
               <Feather name='plus' color="#f1f1f1" size={20} />
             </TouchableOpacity>
           </>
-          // <Image source={{ uri: 'https://i.pinimg.com/originals/f9/91/e9/f991e98774d640ecc5962dbb6cb59ef2.jpg' }} style={styles.img} />
         ) : (
           <>
             <Image source={{ uri: userData.photo }} style={styles.img} />
@@ -51,16 +75,22 @@ export function Profile() {
               <Feather name='plus' color="#f1f1f1" size={20} />
             </TouchableOpacity>
           </>
-        )}
+        )} */}
+        <View style={[styles.img, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
+          <Feather name="user" color="#00c49a" size={60} />
+        </View>
+        <TouchableOpacity style={styles.addPhotoButton} onPress={() => setPhoto()}>
+          <Feather name='plus' color="#f1f1f1" size={20} />
+        </TouchableOpacity>
       </View>
-      <Text style={styles.name}>{userData.name}</Text>
+      <Text style={styles.name}>Caia</Text>
 
       <View style={styles.mealsHeader}>
         <Text style={styles.headerText}>User's meals</Text>
       </View>
 
       <View style={styles.mealsCreated}>
-        <FlatList
+        {/* <FlatList
           style={{ width: '100%', }}
           data={meals}
           keyExtractor={item => item.title}
@@ -74,7 +104,7 @@ export function Profile() {
               ) : null}
             </>
           )}
-        />
+        /> */}
       </View>
     </View>
   )
@@ -110,7 +140,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: '23%',
     bottom: -10,
-    
+
     alignItems: 'center',
     justifyContent: 'center',
   },
