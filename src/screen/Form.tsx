@@ -34,25 +34,21 @@ export function Form({ navigation }: Props) {
     console.log('-----')
   }, [])
 
-  function getStorage() {
-    
-  }
-
   function checkCategory(time: Date, category: string) {
-    const formatedTime = moment(time).format('h:mm');
+    const formattedTime = moment(time).format('h:mm');
 
     switch (category) {
       case 'breakfast':
-        setBreakfastTime(formatedTime);
+        setBreakfastTime(formattedTime);
         break;
       case 'lunch':
-        setLunchTime(formatedTime);
+        setLunchTime(formattedTime);
         break;
       case 'snack':
-        setSnackTime(formatedTime);
+        setSnackTime(formattedTime);
         break;
       case 'dinner':
-        setDinnerTime(formatedTime);
+        setDinnerTime(formattedTime);
         break;
       default:
         console.log('There was an error!');
@@ -126,7 +122,7 @@ export function Form({ navigation }: Props) {
               value={title}
               onChangeText={text => setTitle(text)}
             />
-            <TextInput placeholder="Total caloreis" style={[styles.headerInputs, { marginLeft: 2 }]}
+            <TextInput placeholder="Total calories" style={[styles.headerInputs, { marginLeft: 2 }]}
               value={calories}
               onChangeText={text => setCalories(text)}
             />

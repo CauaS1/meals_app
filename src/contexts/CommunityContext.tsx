@@ -38,6 +38,7 @@ interface CommunityContextData {
   meals: IMeals[];
   searchInputFunction: (text: string) => void;
   optionFunction: (value: number) => void;
+  updatePhoto: (url: string) => void;
 }
 
 const storage = new Storage({
@@ -54,6 +55,7 @@ export function CommunityProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [options, setOptions] = useState('default');
+  const [userPhoto, setUserPhoto] = useState('');
 
   useEffect(() => {
     if (searchInputValue === "" && options === "default") {
@@ -67,8 +69,7 @@ export function CommunityProvider({ children }: Props) {
     }
 
     saveStorage();
-    // checkIfUserIsConnected();
-  }, [])
+  }, [userPhoto])
 
   async function saveStorage() {
     await api.get('/check').then(userConnected => {
@@ -89,6 +90,18 @@ export function CommunityProvider({ children }: Props) {
     });
 
     global.userStorage = storage.cache.userData.rawData;
+  }
+
+  async function updatePhoto(url: string) {
+    const userId = global.userStorage.id;
+    setUserPhoto(url);
+
+    await api.put(`/user/update/${userId}`, {
+      photo: url
+    }).then(() => {
+      console.log('photo updated')
+      saveStorage();
+    }).catch(err => console.log(err));
   }
 
 
@@ -127,16 +140,13 @@ export function CommunityProvider({ children }: Props) {
     console.log("options: " + options);
   }
 
-  async function checkIfUserIsConnected() {
-
-  }
-
   return (
     <CommunityContext.Provider value={{
       meals,
       searchInputFunction,
       searchInputValue,
-      optionFunction
+      optionFunction,
+      updatePhoto
     }} >
       { children}
     </CommunityContext.Provider>

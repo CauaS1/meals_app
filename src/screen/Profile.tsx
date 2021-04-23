@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, StatusBar, FlatList, Alert } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -6,7 +6,8 @@ import * as ImagePicker from 'expo-image-picker';
 
 import Feather from 'react-native-vector-icons/Feather';
 import { WavyHeader } from '../components/WavyHeader';
-import { api } from '../service/api';
+import { api } from '../service/api'; 
+import { CommunityContext } from '../contexts/CommunityContext';
 
 interface IMeals {
   title: string;
@@ -16,13 +17,18 @@ interface IMeals {
 }
 
 export function Profile() {
-  const [userInfo, setUserInfo] = useState<NodeJS.Global>();
-  const [meals, setMeals] = useState<IMeals[]>([])
-  const [userPhoto, setUserPhoto] = useState('');
+  const { updatePhoto } = useContext(CommunityContext);
 
-  const userData = global.userStorage;
+  const [meals, setMeals] = useState<IMeals[]>([])
 
   //Get User Meals
+  const userData = global.userStorage;
+
+  useEffect(() => {
+    getMeals();
+    console.log(userData.photo)
+  }, [])
+
   async function getMeals() {
     await api.get('/meals').then(meals => {
       setMeals(meals.data);
@@ -30,7 +36,7 @@ export function Profile() {
   }
 
   async function setPhoto() {
-    const { status, canAskAgain } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       Alert.alert('Access Denied!', 'You must give access to set a profile photo');
       return;
@@ -42,16 +48,11 @@ export function Profile() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images
     });
 
-    console.log(result)
-
     if (!result.cancelled) {
-      setUserPhoto(result.uri);
+      updatePhoto(result.uri);
     }
   }
 
-  useEffect(() => {
-    getMeals();
-  }, [])
 
   return (
     <View style={styles.container}>
@@ -59,38 +60,34 @@ export function Profile() {
       <WavyHeader customHeight={200} customTop={170} />
 
       <View style={styles.imgContainer}>
-        {/* {userData.photo === 'not seted' ? (
+        {userData.photo === "undefined" ? (
           <>
             <View style={[styles.img, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
               <Feather name="user" color="#00c49a" size={60} />
             </View>
-            <TouchableOpacity style={styles.addPhotoButton}>
+            <TouchableOpacity style={styles.addPhotoButton} onPress={() => setPhoto()}>
               <Feather name='plus' color="#f1f1f1" size={20} />
             </TouchableOpacity>
           </>
         ) : (
           <>
             <Image source={{ uri: userData.photo }} style={styles.img} />
-            <TouchableOpacity style={{ backgroundColor: '#00c49a', width: 80, height: 50 }}>
+            <TouchableOpacity style={styles.addPhotoButton} onPress={() => setPhoto()}>
+
               <Feather name='plus' color="#f1f1f1" size={20} />
             </TouchableOpacity>
           </>
-        )} */}
-        <View style={[styles.img, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
-          <Feather name="user" color="#00c49a" size={60} />
-        </View>
-        <TouchableOpacity style={styles.addPhotoButton} onPress={() => setPhoto()}>
-          <Feather name='plus' color="#f1f1f1" size={20} />
-        </TouchableOpacity>
+        )}
+        
       </View>
-      <Text style={styles.name}>Caia</Text>
+      <Text style={styles.name}>{userData.name}</Text>
 
       <View style={styles.mealsHeader}>
         <Text style={styles.headerText}>User's meals</Text>
       </View>
 
       <View style={styles.mealsCreated}>
-        {/* <FlatList
+        <FlatList
           style={{ width: '100%', }}
           data={meals}
           keyExtractor={item => item.title}
@@ -98,13 +95,12 @@ export function Profile() {
             <>
               {item.users.id === userData.id ? (
                 <TouchableOpacity style={styles.mealsContent}>
-                  { console.log(item)}
                   <Text style={styles.mealName}>{item.title}</Text>
                 </TouchableOpacity>
               ) : null}
             </>
           )}
-        /> */}
+        />
       </View>
     </View>
   )

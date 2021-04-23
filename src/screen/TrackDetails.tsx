@@ -20,7 +20,7 @@ export function TrackDetails({ route }: Props) {
     lunch_time,
     users,
     rated,
-    appSugestion
+    appSuggestion: appSuggestion
   } = route.params;
 
   const { notificationSchedule } = useContext(MealsContext);
@@ -60,7 +60,7 @@ export function TrackDetails({ route }: Props) {
         </View>
 
 
-        {!appSugestion ? (
+        {!appSuggestion ? (
           <View style={styles.userInfo}>
             { users.photo === 'not setted' ? (
               <View style={[styles.userPhoto, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>

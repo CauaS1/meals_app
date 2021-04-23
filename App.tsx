@@ -48,7 +48,7 @@ export default function App() {
   return (
     <MealsProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Initial" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Initial" component={Initial} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Login" component={Login} />
