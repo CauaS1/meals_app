@@ -6,34 +6,22 @@ import * as ImagePicker from 'expo-image-picker';
 
 import Feather from 'react-native-vector-icons/Feather';
 import { WavyHeader } from '../components/WavyHeader';
-import { api } from '../service/api'; 
+import { api } from '../service/api';
 import { CommunityContext } from '../contexts/CommunityContext';
+import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 
-interface IMeals {
-  title: string;
-  users: {
-    id: number;
-  }
+interface Props {
+  navigation: StackNavigationHelpers;
 }
 
-export function Profile() {
-  const { updatePhoto } = useContext(CommunityContext);
+interface NavigationProps {
 
-  const [meals, setMeals] = useState<IMeals[]>([])
+}
 
-  //Get User Meals
+export function Profile({ navigation }: Props) {
+  const { updatePhoto, meals } = useContext(CommunityContext);
   const userData = global.userStorage;
 
-  useEffect(() => {
-    getMeals();
-    console.log(userData.photo)
-  }, [])
-
-  async function getMeals() {
-    await api.get('/meals').then(meals => {
-      setMeals(meals.data);
-    })
-  }
 
   async function setPhoto() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -52,7 +40,6 @@ export function Profile() {
       updatePhoto(result.uri);
     }
   }
-
 
   return (
     <View style={styles.container}>
@@ -78,7 +65,7 @@ export function Profile() {
             </TouchableOpacity>
           </>
         )}
-        
+
       </View>
       <Text style={styles.name}>{userData.name}</Text>
 
@@ -93,8 +80,21 @@ export function Profile() {
           keyExtractor={item => item.title}
           renderItem={({ item }) => (
             <>
-              {item.users.id === userData.id ? (
-                <TouchableOpacity style={styles.mealsContent}>
+              {console.log(item.snack_time)}
+              {item.users?.id === userData.id ? (
+                <TouchableOpacity style={styles.mealsContent} onPress={() => navigation.navigate('TrackDetails', {
+                  title: item.title,
+                  breakfast: item.breakfast,
+                  breakfast_time: item.breakfast_time,
+                  lunch: item.lunch,
+                  lunch_time: item.lunch_time,
+                  snack: item.snack,
+                  snack_time: item.snack_time,
+                  dinner: item.dinner,
+                  dinner_time: item.dinner_time,
+                  total_calories: item.total_calories,
+                  users: item.users
+                })}>
                   <Text style={styles.mealName}>{item.title}</Text>
                 </TouchableOpacity>
               ) : null}

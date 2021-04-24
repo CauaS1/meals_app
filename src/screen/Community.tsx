@@ -70,7 +70,7 @@ export function Community({ navigation }: Props) {
         style={{ marginTop: 10, marginBottom: 10 }}
         keyExtractor={item => item.id}
         numColumns={2}
-        renderItem={({ item }) => ( //Renamed "item" to "meal"
+        renderItem={({ item }) => ( 
           <TouchableOpacity style={styles.mealsContainer} onPress={() => navigation.navigate('TrackDetails', {
             title: item.title,
             breakfast: item.breakfast,
@@ -78,10 +78,13 @@ export function Community({ navigation }: Props) {
             lunch: item.lunch,
             lunch_time: item.lunch_time,
             snack: item.snack,
-            stack_time: item.snack_time,
+            snack_time: item.snack_time,
             dinner: item.dinner,
             dinner_time: item.dinner_time,
-            total_calories: item.total_calories
+            total_calories: item.total_calories,
+            users: {
+              photo: 'undefined'
+            }
           })} >
             <Image source={require('../assets/icons/egg.png')} style={styles.icons} />
             <Text style={styles.mealTitle}

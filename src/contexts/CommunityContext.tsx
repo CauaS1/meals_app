@@ -20,17 +20,11 @@ interface IMeals {
   lunch_time: Date;
   snack_time: Date;
   dinner_time: Date;
-}
-
-interface ICalories {
-  meal_calories: IMeals[];
-}
-
-interface IUser {
-  name: string;
-  email: string;
-  id: number;
-  photo: string
+  users?: {
+    id: number;
+    name: string;
+    photo: string;
+  }
 }
 
 interface CommunityContextData {
@@ -89,7 +83,7 @@ export function CommunityProvider({ children }: Props) {
       });
     });
 
-    global.userStorage = storage.cache.userData.rawData;
+    global.userStorage  = storage.cache.userData.rawData;
   }
 
   async function updatePhoto(url: string) {

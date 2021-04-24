@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'rea
 import Feather from 'react-native-vector-icons/Feather';
 import { MealsContext } from '../contexts/MealsContext';
 
+
 interface Props {
   route: any;
 }
@@ -20,12 +21,11 @@ export function TrackDetails({ route }: Props) {
     lunch_time,
     users,
     rated,
-    appSuggestion: appSuggestion
+    appSuggestion
   } = route.params;
 
   const { notificationSchedule } = useContext(MealsContext);
 
-  console.log(breakfast_time[0] + breakfast_time[1]);
   return (
     <View style={styles.container}>
       <View style={{ width: '100%', alignItems: 'center' }}>
@@ -59,10 +59,9 @@ export function TrackDetails({ route }: Props) {
           </View>
         </View>
 
-
         {!appSuggestion ? (
           <View style={styles.userInfo}>
-            { users.photo === 'not setted' ? (
+            { users.photo === 'undefined' ? (
               <View style={[styles.userPhoto, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
                 <Feather name="user" color="#00c49a" size={28} />
               </View>

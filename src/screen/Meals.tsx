@@ -38,11 +38,11 @@ export function Meals({ navigation }: Props) {
                 lunch: item.lunch,
                 lunch_time: item.lunch_time,
                 snack: item.snack,
-                stack_time: item.snack_time,
+                snack_time: item.snack_time,
                 dinner: item.dinner,
                 dinner_time: item.dinner_time,
                 total_calories: item.total_calories,
-                appSugestion: true,
+                appSuggestion: true,
               })
             }} >
               <Image
@@ -81,7 +81,7 @@ export function Meals({ navigation }: Props) {
                       lunch: item.lunch,
                       lunch_time: item.lunch_time,
                       snack: item.snack,
-                      stack_time: item.snack_time,
+                      snack_time: item.snack_time,
                       dinner: item.dinner,
                       dinner_time: item.dinner_time,
                       total_calories: item.total_calories,

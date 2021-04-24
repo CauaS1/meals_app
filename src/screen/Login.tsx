@@ -1,6 +1,6 @@
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { ReactNode, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, TextInput, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, TextInput, Dimensions, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { WavyHeader } from '../components/WavyHeader';
 import { api } from '../service/api';
 
@@ -14,7 +14,7 @@ export function Login({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  
+
   async function login() {
     await api.post('/login', {
       email: email,
@@ -28,41 +28,41 @@ export function Login({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <StatusBar translucent={false} backgroundColor="#00c49a" barStyle="light-content" />
-      { heightScreen <= 650  ? (
-        <WavyHeader customHeight={130} customTop={115} title={'Login'}  />
-        ) : (
+      { heightScreen <= 650 ? (
+        <WavyHeader customHeight={130} customTop={115} title={'Login'} />
+      ) : (
         <WavyHeader customHeight={150} customTop={140} title={'Login'} />
       )}
 
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         <View style={styles.form}>
-          <View>
-            <Text style={styles.inputsTitle}>Email</Text>
-            <TextInput placeholder="" style={styles.inputs}
-              value={email}
-              autoCapitalize="none"
-              onChangeText={text => setEmail(text)}
-            />
+            <KeyboardAvoidingView behavior='position'>
+              <Text style={styles.inputsTitle}>Email</Text>
+              <TextInput placeholder="" style={styles.inputs}
+                value={email}
+                autoCapitalize="none"
+                onChangeText={text => setEmail(text)}
+              />
 
-            <Text style={styles.inputsTitle}>Password</Text>
-            <TextInput placeholder="" style={styles.inputs}
-              value={password}
-              secureTextEntry
-              onChangeText={text => setPassword(text)}
-            />
-          </View>
+              <Text style={styles.inputsTitle}>Password</Text>
+              <TextInput placeholder="" style={styles.inputs}
+                value={password}
+                secureTextEntry
+                onChangeText={text => setPassword(text)}
+              />
+            </KeyboardAvoidingView>
 
-          <View style={{ width: '100%', alignItems: 'center' }}>
-            <TouchableOpacity style={styles.button} onPress={login}>
-              <Text style={styles.btnText}>Login</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={{ width: '100%', alignItems: 'center' }}>
+              <TouchableOpacity style={styles.button} onPress={login}>
+                <Text style={styles.btnText}>Login</Text>
+              </TouchableOpacity>
+            </View>
         </View>
 
         <TouchableOpacity style={styles.bottomButton} onPress={() => navigation.navigate('Register')}>
           <Text style={styles.bottomBtnText}>Don't have an account? Register</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   )
 }
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 230,
 
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   title: {
     fontSize: 32,
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 
-  //Bottom Buttom
+  //Bottom Button
   bottomButton: {
     height: 20,
   },
