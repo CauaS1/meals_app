@@ -20,6 +20,7 @@ interface IMeals {
   lunch_time: Date;
   snack_time: Date;
   dinner_time: Date;
+  rated: number;
   users?: {
     id: number;
     name: string;
@@ -38,7 +39,7 @@ interface CommunityContextData {
 const storage = new Storage({
   size: 1000,
   storageBackend: AsyncStorage,
-  defaultExpires: 60 * 2,
+  defaultExpires: 60 * 60 * 2,
   enableCache: true,
 });
 
@@ -62,8 +63,9 @@ export function CommunityProvider({ children }: Props) {
       }
     }
 
+    console.log('community context updated')
     saveStorage();
-  }, [userPhoto])
+  }, [userPhoto]);
 
   async function saveStorage() {
     await api.get('/check').then(userConnected => {
@@ -88,16 +90,14 @@ export function CommunityProvider({ children }: Props) {
 
   async function updatePhoto(url: string) {
     const userId = global.userStorage.id;
-    setUserPhoto(url);
 
     await api.put(`/user/update/${userId}`, {
       photo: url
     }).then(() => {
-      console.log('photo updated')
+      setUserPhoto(url);
       saveStorage();
     }).catch(err => console.log(err));
   }
-
 
   // API Features
   async function getMeals() {

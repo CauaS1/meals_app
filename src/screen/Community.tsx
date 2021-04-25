@@ -70,7 +70,7 @@ export function Community({ navigation }: Props) {
         style={{ marginTop: 10, marginBottom: 10 }}
         keyExtractor={item => item.id}
         numColumns={2}
-        renderItem={({ item }) => ( 
+        renderItem={({ item }) => (
           <TouchableOpacity style={styles.mealsContainer} onPress={() => navigation.navigate('TrackDetails', {
             title: item.title,
             breakfast: item.breakfast,

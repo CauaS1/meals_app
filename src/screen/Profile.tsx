@@ -83,6 +83,7 @@ export function Profile({ navigation }: Props) {
               {console.log(item.snack_time)}
               {item.users?.id === userData.id ? (
                 <TouchableOpacity style={styles.mealsContent} onPress={() => navigation.navigate('TrackDetails', {
+                  meal_id: item.id,
                   title: item.title,
                   breakfast: item.breakfast,
                   breakfast_time: item.breakfast_time,
@@ -93,7 +94,8 @@ export function Profile({ navigation }: Props) {
                   dinner: item.dinner,
                   dinner_time: item.dinner_time,
                   total_calories: item.total_calories,
-                  users: item.users
+                  users: item.users,
+                  rated: item.rated
                 })}>
                   <Text style={styles.mealName}>{item.title}</Text>
                 </TouchableOpacity>

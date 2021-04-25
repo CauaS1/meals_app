@@ -75,6 +75,7 @@ export function Meals({ navigation }: Props) {
                 <TouchableOpacity style={[styles.mealsContainer, styles.smallMealContainer,]}
                   onPress={() => {
                     navigation.navigate('TrackDetails', {
+                      meal_id: item.id,
                       title: item.title,
                       breakfast: item.breakfast,
                       breakfast_time: item.breakfast_time,

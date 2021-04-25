@@ -5,6 +5,10 @@ declare namespace NodeJS{
       id: number;
       email: string;
       photo: string;
-    };
+    },
+    likeStatus: {
+      isLiked: boolean;
+    }
   }
+
 }

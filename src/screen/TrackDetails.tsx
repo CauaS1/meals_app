@@ -1,16 +1,27 @@
-import React, { useContext } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
+import Storage from 'react-native-storage';
 import Feather from 'react-native-vector-icons/Feather';
 import { MealsContext } from '../contexts/MealsContext';
-
+import { api } from '../service/api';
 
 interface Props {
   route: any;
 }
 
+// const storage = new Storage({
+//   size: 100,
+//   storageBackend: AsyncStorage,
+//   defaultExpires: 60 * 60 * 2,
+//   enableCache: true
+// });
+
 export function TrackDetails({ route }: Props) {
-  const { title,
+  const [isLiked, setIsLiked] = useState(false);
+  const { meal_id,
+    title,
     breakfast,
     breakfast_time,
     dinner,
@@ -24,7 +35,34 @@ export function TrackDetails({ route }: Props) {
     appSuggestion
   } = route.params;
 
+  // useEffect(() => {
+  //   storage.save({
+  //     key: 'statusData',
+  //     data: {
+  //       isLiked: isLiked
+  //     }
+  //   })
+
+  //   global.likeStatus = storage.cache.statusData.rawData;
+  // }, [isLiked])
+
+  console.log(global.likeStatus)
+
   const { notificationSchedule } = useContext(MealsContext);
+
+  async function like() {
+    await api.put(`/meal/like/${meal_id}`).then(() => {
+      setIsLiked(true);
+    }).catch(err => {
+      console.log('Error with Like system * ' + err)
+    })
+  }
+
+  async function unlike() {
+    await api.put(`/meal/unlike/${meal_id}`).then(() => {
+      setIsLiked(false);
+    }).catch(err => console.log('Error with unlike system * ' + err))
+  }
 
   return (
     <View style={styles.container}>
@@ -63,7 +101,7 @@ export function TrackDetails({ route }: Props) {
           <View style={styles.userInfo}>
             { users.photo === 'undefined' ? (
               <View style={[styles.userPhoto, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
-                <Feather name="user" color="#00c49a" size={28} />
+                <Feather name="user" color="#00c49a70" size={28} />
               </View>
             ) : (
               <Image style={styles.userPhoto}
@@ -77,9 +115,16 @@ export function TrackDetails({ route }: Props) {
                 <Text style={styles.userRate}>{rated} Likes</Text>
               </View>
 
-              <TouchableOpacity style={styles.likeButton}>
-                <Feather name="chevron-up" size={25} color="#fff" />
-              </TouchableOpacity>
+              {!isLiked ? (
+                <TouchableOpacity style={styles.likeButton} onPress={like}>
+                  <Feather name="chevron-up" size={25} color="#fff" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={[styles.likeButton, { backgroundColor: '#f1f1f1' }]} onPress={unlike}>
+                  <Feather name="chevron-down" size={25} color="#00c49a70" />
+                </TouchableOpacity>
+              )}
+
             </View>
           </View>
         ) : null}
@@ -87,7 +132,7 @@ export function TrackDetails({ route }: Props) {
       </View>
 
       <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', height: 40, }}>
-        <TouchableOpacity style={styles.setPlanButton} onPress={() => notificationSchedule(5,0)} >
+        <TouchableOpacity style={styles.setPlanButton} onPress={() => notificationSchedule(5, 0)} >
           <Text style={{ color: '#00c49a', fontWeight: '700' }}>Set this Plan</Text>
         </TouchableOpacity>
       </View>
@@ -187,7 +232,7 @@ const styles = StyleSheet.create({
 
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#00c49a50',
+    backgroundColor: '#00c49a70',
     borderRadius: 18,
 
     position: 'absolute',
