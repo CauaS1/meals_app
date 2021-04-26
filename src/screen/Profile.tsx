@@ -14,14 +14,8 @@ interface Props {
   navigation: StackNavigationHelpers;
 }
 
-interface NavigationProps {
-
-}
-
 export function Profile({ navigation }: Props) {
-  const { updatePhoto, meals } = useContext(CommunityContext);
-  const userData = global.userStorage;
-
+  const { updatePhoto, meals, logout, user } = useContext(CommunityContext);
 
   async function setPhoto() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -47,7 +41,7 @@ export function Profile({ navigation }: Props) {
       <WavyHeader customHeight={200} customTop={170} />
 
       <View style={styles.imgContainer}>
-        {userData.photo === "undefined" ? (
+        {user?.photo === "undefined" ? (
           <>
             <View style={[styles.img, { backgroundColor: '#f1f1f1', alignItems: 'center', justifyContent: 'center' }]}>
               <Feather name="user" color="#00c49a" size={60} />
@@ -58,7 +52,7 @@ export function Profile({ navigation }: Props) {
           </>
         ) : (
           <>
-            <Image source={{ uri: userData.photo }} style={styles.img} />
+            <Image source={{ uri: user?.photo }} style={styles.img} />
             <TouchableOpacity style={styles.addPhotoButton} onPress={() => setPhoto()}>
 
               <Feather name='plus' color="#f1f1f1" size={20} />
@@ -67,7 +61,7 @@ export function Profile({ navigation }: Props) {
         )}
 
       </View>
-      <Text style={styles.name}>{userData.name}</Text>
+      <Text style={styles.name}>{user?.name}</Text>
 
       <View style={styles.mealsHeader}>
         <Text style={styles.headerText}>User's meals</Text>
@@ -75,13 +69,13 @@ export function Profile({ navigation }: Props) {
 
       <View style={styles.mealsCreated}>
         <FlatList
-          style={{ width: '100%', }}
+          style={{ width: '100%' }}
           data={meals}
           keyExtractor={item => item.title}
           renderItem={({ item }) => (
             <>
               {console.log(item.snack_time)}
-              {item.users?.id === userData.id ? (
+              {item.users?.id === user?.id ? (
                 <TouchableOpacity style={styles.mealsContent} onPress={() => navigation.navigate('TrackDetails', {
                   meal_id: item.id,
                   title: item.title,
@@ -104,6 +98,13 @@ export function Profile({ navigation }: Props) {
           )}
         />
       </View>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={() => {
+        logout()
+        navigation.navigate('Initial');
+      }}>
+        <Text style={{ color: '#00c49a', fontWeight: 'bold', textTransform: 'uppercase', fontSize: 13 }}>Log out</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -174,6 +175,7 @@ const styles = StyleSheet.create({
 
   mealsCreated: {
     width: '100%',
+    flex: 1,
     borderTopWidth: 1,
     borderColor: '#cacace80',
     padding: 15,
@@ -196,6 +198,13 @@ const styles = StyleSheet.create({
   mealName: {
     fontSize: 16,
     color: '#444'
+  },
+  logoutButton: {
+    width: '100%',
+    height: 25,
+
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 
 })

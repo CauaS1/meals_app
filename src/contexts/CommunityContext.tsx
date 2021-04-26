@@ -3,6 +3,7 @@ import { api } from "../service/api";
 
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-community/async-storage';
+import { StackNavigationHelpers } from "@react-navigation/stack/lib/typescript/src/types";
 
 interface Props {
   children: ReactNode;
@@ -28,12 +29,21 @@ interface IMeals {
   }
 }
 
+interface IUser {
+  email: string;
+  id: number;
+  name: string;
+  photo: string;
+}
+
 interface CommunityContextData {
   searchInputValue: string;
   meals: IMeals[];
+  user: IUser | undefined;
   searchInputFunction: (text: string) => void;
   optionFunction: (value: number) => void;
   updatePhoto: (url: string) => void;
+  logout: () => void;
 }
 
 const storage = new Storage({
@@ -51,6 +61,7 @@ export function CommunityProvider({ children }: Props) {
   const [searchInputValue, setSearchInputValue] = useState('');
   const [options, setOptions] = useState('default');
   const [userPhoto, setUserPhoto] = useState('');
+  const [user, setUser] = useState()
 
   useEffect(() => {
     if (searchInputValue === "" && options === "default") {
@@ -63,8 +74,8 @@ export function CommunityProvider({ children }: Props) {
       }
     }
 
-    console.log('community context updated')
     saveStorage();
+    loadUser();
   }, [userPhoto]);
 
   async function saveStorage() {
@@ -74,6 +85,7 @@ export function CommunityProvider({ children }: Props) {
 
       storage.save({
         key: 'userData',
+        id: user_data.id, //In case of any error, its probably because you changed here
         data: {
           name: user_data.name,
           id: user_data.id,
@@ -85,18 +97,52 @@ export function CommunityProvider({ children }: Props) {
       });
     });
 
-    global.userStorage  = storage.cache.userData.rawData;
+    // global.userStorage = storage.cache.userData.rawData;
+  }
+
+  async function loadUser() {
+    await api.get('/check').then(userConnected => {
+      const user_data = userConnected.data;
+
+      storage.load({
+        key: 'userData',
+        id: user_data.id,
+
+      }).then(data => setUser(data)).catch(err => console.log('Error: GG ' + err))
+    })
+  }
+
+  async function logout() {
+    await api.get('/logout').then(() => {
+      storage.save({
+        key: 'userData',
+        data: {
+          name: undefined,
+          id: undefined,
+          email: undefined,
+          photo: undefined
+        }
+      }).then(() => console.log('Logged out'))
+    })
   }
 
   async function updatePhoto(url: string) {
-    const userId = global.userStorage.id;
+    // await api.get('/check').then(async userConnected => {
+    //   const user_data = userConnected.data;
 
-    await api.put(`/user/update/${userId}`, {
+    // })
+    await api.put(`/user/update/b6295cef-5915-49e1-a674-7e61126b1333`, {
       photo: url
     }).then(() => {
+      storage.save({
+        key: 'userData',
+        data: {
+          photo: url
+        }
+      });
       setUserPhoto(url);
-      saveStorage();
-    }).catch(err => console.log(err));
+    }).catch(err => console.log('not changed: ' + err));
+    // }).catch(() => console.log('User not connected'))
   }
 
   // API Features
@@ -140,7 +186,9 @@ export function CommunityProvider({ children }: Props) {
       searchInputFunction,
       searchInputValue,
       optionFunction,
-      updatePhoto
+      updatePhoto,
+      logout,
+      user,
     }} >
       { children}
     </CommunityContext.Provider>
