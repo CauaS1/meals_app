@@ -1,6 +1,7 @@
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { ReactNode, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, TextInput, Dimensions, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Snackbar } from 'react-native-paper';
 import { WavyHeader } from '../components/WavyHeader';
 import { api } from '../service/api';
 
@@ -13,6 +14,7 @@ interface Props {
 export function Login({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSnackbarEnable, setIsSnackbarEnable] = useState(false);
 
 
   async function login() {
@@ -22,7 +24,10 @@ export function Login({ navigation }: Props) {
     }).then(() => {
       console.log('Logged!')
       navigation.navigate('Home');
-    }).catch(err => console.log('Error: ' + err))
+    }).catch(err => {
+      setIsSnackbarEnable(true);
+      console.log('Error: ' + err)
+    })
   }
 
   return (
@@ -63,6 +68,15 @@ export function Login({ navigation }: Props) {
           <Text style={styles.bottomBtnText}>Don't have an account? Register</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <Snackbar
+        visible={isSnackbarEnable}
+        onDismiss={() => setIsSnackbarEnable(false)}
+        action={{
+          label: 'OK',
+          onPress: () => {}
+        }}
+      >Error! Check if the email/password is correct</Snackbar>
     </View>
   )
 }

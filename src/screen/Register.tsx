@@ -6,6 +6,8 @@ import { api } from '../service/api';
 
 const heightScreen = Dimensions.get('window').height;
 
+import { Snackbar } from 'react-native-paper';
+
 interface Props {
   navigation: StackNavigationHelpers
 }
@@ -14,6 +16,7 @@ export function Register({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [isSnackbarEnable, setIsSnackbarEnable] = useState(false);
 
   async function register() {
     await api.post('/register', {
@@ -23,7 +26,10 @@ export function Register({ navigation }: Props) {
     }).then(() => {
       console.log('Registered!');
       navigation.navigate('Login');
-    }).catch(err => console.log('Error: ' + err))
+    }).catch(error => {
+      setIsSnackbarEnable(true)
+      console.log('Error: ' + error)
+    })
   }
 
   return (
@@ -72,6 +78,15 @@ export function Register({ navigation }: Props) {
           <Text style={styles.bottomBtnText}>Already have an account? Login</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <Snackbar
+        visible={isSnackbarEnable}
+        onDismiss={() => setIsSnackbarEnable(false)}
+        action={{
+          label: 'OK',
+          onPress: () => { }
+        }}
+      >Already exist an account with this email</Snackbar>
     </View>
   )
 }
