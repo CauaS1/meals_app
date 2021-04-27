@@ -15,7 +15,11 @@ interface Props {
 }
 
 export function Profile({ navigation }: Props) {
-  const { updatePhoto, meals, logout, user } = useContext(CommunityContext);
+  const { updatePhoto, meals, logout, user, loadUser, userPhoto  } = useContext(CommunityContext);
+
+  useEffect(() => {
+    loadUser();
+  }, [userPhoto])
 
   async function setPhoto() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();

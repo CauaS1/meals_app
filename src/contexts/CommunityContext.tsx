@@ -31,7 +31,7 @@ interface IMeals {
 
 interface IUser {
   email: string;
-  id: number;
+  id: string;
   name: string;
   photo: string;
 }
@@ -40,10 +40,12 @@ interface CommunityContextData {
   searchInputValue: string;
   meals: IMeals[];
   user: IUser | undefined;
+  userPhoto: string;
   searchInputFunction: (text: string) => void;
   optionFunction: (value: number) => void;
   updatePhoto: (url: string) => void;
   logout: () => void;
+  loadUser: () => void;
 }
 
 const storage = new Storage({
@@ -60,8 +62,11 @@ export function CommunityProvider({ children }: Props) {
   const [meals, setMeals] = useState<IMeals[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [options, setOptions] = useState('default');
+
   const [userPhoto, setUserPhoto] = useState('');
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
+
+  const [connectedUserData, setConnectedUserData] = useState<IUser>()
 
   useEffect(() => {
     if (searchInputValue === "" && options === "default") {
@@ -75,17 +80,17 @@ export function CommunityProvider({ children }: Props) {
     }
 
     saveStorage();
-    loadUser();
-  }, [userPhoto]);
+  }, []);
 
   async function saveStorage() {
     await api.get('/check').then(userConnected => {
 
       const user_data = userConnected.data;
+      setConnectedUserData(user_data);
 
       storage.save({
         key: 'userData',
-        id: user_data.id, //In case of any error, its probably because you changed here
+        id: connectedUserData?.id, //In case of any error, its probably because you changed here
         data: {
           name: user_data.name,
           id: user_data.id,
@@ -93,7 +98,7 @@ export function CommunityProvider({ children }: Props) {
           photo: user_data.photo
         },
 
-        expires: 60 * 60 * 2
+        expires: 1000 * 3600
       });
     });
 
@@ -101,15 +106,11 @@ export function CommunityProvider({ children }: Props) {
   }
 
   async function loadUser() {
-    await api.get('/check').then(userConnected => {
-      const user_data = userConnected.data;
+    storage.load({
+      key: 'userData',
+      id: connectedUserData?.id
 
-      storage.load({
-        key: 'userData',
-        id: user_data.id,
-
-      }).then(data => setUser(data)).catch(err => console.log('Error: GG ' + err))
-    })
+    }).then(data => setUser(data)).catch(err => console.log('Error: GG ' + err.message))
   }
 
   async function logout() {
@@ -189,6 +190,8 @@ export function CommunityProvider({ children }: Props) {
       updatePhoto,
       logout,
       user,
+      loadUser,
+      userPhoto
     }} >
       { children}
     </CommunityContext.Provider>
