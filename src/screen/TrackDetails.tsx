@@ -11,13 +11,6 @@ interface Props {
   route: any;
 }
 
-// const storage = new Storage({
-//   size: 100,
-//   storageBackend: AsyncStorage,
-//   defaultExpires: 60 * 60 * 2,
-//   enableCache: true
-// });
-
 export function TrackDetails({ route }: Props) {
   const [isLiked, setIsLiked] = useState(false);
   const { meal_id,
@@ -34,19 +27,6 @@ export function TrackDetails({ route }: Props) {
     rated,
     appSuggestion
   } = route.params;
-
-  // useEffect(() => {
-  //   storage.save({
-  //     key: 'statusData',
-  //     data: {
-  //       isLiked: isLiked
-  //     }
-  //   })
-
-  //   global.likeStatus = storage.cache.statusData.rawData;
-  // }, [isLiked])
-
-  console.log(global.likeStatus)
 
   const { notificationSchedule } = useContext(MealsContext);
 

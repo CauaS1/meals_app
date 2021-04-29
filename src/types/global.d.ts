@@ -1,6 +1,6 @@
 declare namespace NodeJS{
   interface Global {
-    userStorage: {
+    userData: {
       name: string;
       id: number;
       email: string;

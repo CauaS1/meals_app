@@ -28,12 +28,6 @@ export function Form({ navigation }: Props) {
 
   const [category, setCategory] = useState('');
 
-  useEffect(() => {
-    console.log('-----')
-    console.log(global.userStorage)
-    console.log('-----')
-  }, [])
-
   function checkCategory(time: Date, category: string) {
     const formattedTime = moment(time).format('h:mm');
 
@@ -78,7 +72,7 @@ export function Form({ navigation }: Props) {
       lunch_time: lunchTime,
       snack_time: snackTime,
       dinner_time: dinnerTime,
-      users: global.userStorage
+      users: undefined
 
     
     }).then(() => {

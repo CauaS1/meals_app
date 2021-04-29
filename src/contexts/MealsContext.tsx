@@ -116,8 +116,7 @@ export function MealsProvider({ children }: Props) {
     const trigger = new Date(Date.now() + 60 * 60 * 1000);
     trigger.setHours(hour);
     trigger.setMinutes(minutes);
-    console.log(trigger.getHours())
-    console.log(trigger.getMinutes())
+  
     await Notifications.scheduleNotificationAsync({
       content: {
         title: `It's time for your meal`,

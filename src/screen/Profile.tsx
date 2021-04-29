@@ -15,7 +15,7 @@ interface Props {
 }
 
 export function Profile({ navigation }: Props) {
-  const { updatePhoto, meals, logout, user, loadUser, userPhoto  } = useContext(CommunityContext);
+  const { updatePhoto, meals, logout, user, loadUser, userPhoto } = useContext(CommunityContext);
 
   useEffect(() => {
     loadUser();
@@ -78,7 +78,6 @@ export function Profile({ navigation }: Props) {
           keyExtractor={item => item.title}
           renderItem={({ item }) => (
             <>
-              {console.log(item.snack_time)}
               {item.users?.id === user?.id ? (
                 <TouchableOpacity style={styles.mealsContent} onPress={() => navigation.navigate('TrackDetails', {
                   meal_id: item.id,

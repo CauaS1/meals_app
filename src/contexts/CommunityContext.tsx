@@ -34,6 +34,7 @@ interface IUser {
   id: string;
   name: string;
   photo: string;
+  storage?: Storage;
 }
 
 interface CommunityContextData {
@@ -55,7 +56,6 @@ const storage = new Storage({
   enableCache: true,
 });
 
-
 export const CommunityContext = createContext({} as CommunityContextData);
 
 export function CommunityProvider({ children }: Props) {
@@ -65,8 +65,7 @@ export function CommunityProvider({ children }: Props) {
 
   const [userPhoto, setUserPhoto] = useState('');
   const [user, setUser] = useState();
-
-  const [connectedUserData, setConnectedUserData] = useState<IUser>()
+  const [userData, setUserData] = useState<IUser>();
 
   useEffect(() => {
     if (searchInputValue === "" && options === "default") {
@@ -78,19 +77,18 @@ export function CommunityProvider({ children }: Props) {
         byCalories()
       }
     }
+  }, [searchInputValue, options]);
 
+  useEffect(() => {
     saveStorage();
-  }, []);
+  }, [])
 
   async function saveStorage() {
-    await api.get('/check').then(userConnected => {
-
-      const user_data = userConnected.data;
-      setConnectedUserData(user_data);
-
-      storage.save({
+    await api.get('/check').then(async userConnected => {
+      const user_data: IUser = userConnected.data;
+      await storage.save({
         key: 'userData',
-        id: connectedUserData?.id, //In case of any error, its probably because you changed here
+        id: user_data.id,
         data: {
           name: user_data.name,
           id: user_data.id,
@@ -98,25 +96,29 @@ export function CommunityProvider({ children }: Props) {
           photo: user_data.photo
         },
 
-        expires: 1000 * 3600
+        expires: 60 * 60 * 2
       });
-    });
 
-    // global.userStorage = storage.cache.userData.rawData;
+      setTimeout(() => {
+        setUserData(user_data);
+      }, 100)
+    });
   }
 
   async function loadUser() {
-    storage.load({
+    await storage.load({
       key: 'userData',
-      id: connectedUserData?.id
-
-    }).then(data => setUser(data)).catch(err => console.log('Error: GG ' + err.message))
+      id: userData?.id,
+    }).then(data => {
+      setUser(data);
+    }).catch((err: Error) => console.log('Error: ' + err.message))
   }
 
   async function logout() {
     await api.get('/logout').then(() => {
       storage.save({
         key: 'userData',
+        id: undefined,
         data: {
           name: undefined,
           id: undefined,
@@ -128,11 +130,7 @@ export function CommunityProvider({ children }: Props) {
   }
 
   async function updatePhoto(url: string) {
-    // await api.get('/check').then(async userConnected => {
-    //   const user_data = userConnected.data;
-
-    // })
-    await api.put(`/user/update/b6295cef-5915-49e1-a674-7e61126b1333`, {
+    await api.put(`/user/update/${userData?.id}`, {
       photo: url
     }).then(() => {
       storage.save({
@@ -143,7 +141,6 @@ export function CommunityProvider({ children }: Props) {
       });
       setUserPhoto(url);
     }).catch(err => console.log('not changed: ' + err));
-    // }).catch(() => console.log('User not connected'))
   }
 
   // API Features
