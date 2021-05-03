@@ -22,43 +22,44 @@ const Tab = createMaterialBottomTabNavigator();
 
 function Bottom() {
   return (
-    <CommunityProvider>
-      <Tab.Navigator
-        barStyle={{ backgroundColor: '#f7f7f7' }}
-        inactiveColor="#cacace"
-        activeColor="#00c49a"
-      >
-        <Tab.Screen name="Meals" component={Meals} options={{
-          tabBarIcon: ({ color }) => (
-            <Feather name="home" size={24} color={color} />
-          )
-        }} />
-        <Tab.Screen name="Profile" component={Profile} options={{
-          tabBarIcon: ({ color }) => (
-            <Feather name="user" size={24} color={color} />
-          )
-        }} />
-      </Tab.Navigator>
-    </CommunityProvider>
-
+    // <CommunityProvider>
+    <Tab.Navigator
+      barStyle={{ backgroundColor: '#f7f7f7' }}
+      inactiveColor="#cacace"
+      activeColor="#00c49a"
+    >
+      <Tab.Screen name="Meals" component={Meals} options={{
+        tabBarIcon: ({ color }) => (
+          <Feather name="home" size={24} color={color} />
+        )
+      }} />
+      <Tab.Screen name="Profile" component={Profile} options={{
+        tabBarIcon: ({ color }) => (
+          <Feather name="user" size={24} color={color} />
+        )
+      }} />
+    </Tab.Navigator>
+    // </CommunityProvider>
   )
 }
 
 export default function App() {
   return (
     <MealsProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Initial" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Initial" component={Initial} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Login" component={Login} />
+      <CommunityProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Initial" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Initial" component={Initial} />
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="Login" component={Login} />
 
-          <Stack.Screen name="Home" component={Bottom} />
-          <Stack.Screen name="TrackDetails" component={TrackDetails} />
-          <Stack.Screen name="Community" component={Community} />
-          <Stack.Screen name="Form" component={Form} />
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen name="Home" component={Bottom} />
+            <Stack.Screen name="TrackDetails" component={TrackDetails} />
+            <Stack.Screen name="Community" component={Community} />
+            <Stack.Screen name="Form" component={Form} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </CommunityProvider>
     </MealsProvider>
   );
 }

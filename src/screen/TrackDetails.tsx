@@ -11,6 +11,28 @@ interface Props {
   route: any;
 }
 
+interface RouteProps {
+  meal_id: number;
+  id: string;
+  title: string;
+  breakfast: string;
+  lunch: string;
+  snack: string;
+  dinner: string;
+  total_calories: string;
+  breakfast_time: Date;
+  lunch_time: Date;
+  snack_time: Date;
+  dinner_time: Date;
+  appSuggestion: boolean;
+  rated: number;
+  users: {
+    id: number;
+    name: string;
+    photo: string;
+  };
+}
+
 export function TrackDetails({ route }: Props) {
   const [isLiked, setIsLiked] = useState(false);
   const { meal_id,
@@ -26,7 +48,7 @@ export function TrackDetails({ route }: Props) {
     users,
     rated,
     appSuggestion
-  } = route.params;
+  }: RouteProps = route.params;
 
   const { notificationSchedule } = useContext(MealsContext);
 

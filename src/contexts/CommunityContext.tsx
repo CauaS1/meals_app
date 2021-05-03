@@ -47,6 +47,7 @@ interface CommunityContextData {
   updatePhoto: (url: string) => void;
   logout: () => void;
   loadUser: () => void;
+  saveStorage: () => void;
 }
 
 const storage = new Storage({
@@ -65,7 +66,7 @@ export function CommunityProvider({ children }: Props) {
 
   const [userPhoto, setUserPhoto] = useState('');
   const [user, setUser] = useState();
-  const [userData, setUserData] = useState<IUser>();
+  const [saveUser, setSaveUser] = useState<IUser>();
 
   useEffect(() => {
     if (searchInputValue === "" && options === "default") {
@@ -79,9 +80,6 @@ export function CommunityProvider({ children }: Props) {
     }
   }, [searchInputValue, options]);
 
-  useEffect(() => {
-    saveStorage();
-  }, [])
 
   async function saveStorage() {
     await api.get('/check').then(async userConnected => {
@@ -100,18 +98,18 @@ export function CommunityProvider({ children }: Props) {
       });
 
       setTimeout(() => {
-        setUserData(user_data);
-      }, 100)
+        setSaveUser(user_data);
+      }, 500)
     });
   }
 
   async function loadUser() {
     await storage.load({
       key: 'userData',
-      id: userData?.id,
+      id: saveUser?.id,
     }).then(data => {
       setUser(data);
-    }).catch((err: Error) => console.log('Error: ' + err.message))
+    }).catch((err: Error) => console.log(err.message));
   }
 
   async function logout() {
@@ -130,7 +128,7 @@ export function CommunityProvider({ children }: Props) {
   }
 
   async function updatePhoto(url: string) {
-    await api.put(`/user/update/${userData?.id}`, {
+    await api.put(`/user/update/${saveUser?.id}`, {
       photo: url
     }).then(() => {
       storage.save({
@@ -188,7 +186,8 @@ export function CommunityProvider({ children }: Props) {
       logout,
       user,
       loadUser,
-      userPhoto
+      userPhoto,
+      saveStorage
     }} >
       { children}
     </CommunityContext.Provider>

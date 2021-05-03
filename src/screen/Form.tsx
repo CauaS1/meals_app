@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StatusBar, StyleSheet, Image, Dimensions, TextInput, Alert, Button, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, StatusBar, StyleSheet, Image, Dimensions, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import moment from 'moment';
 import Storage from 'react-native-storage';
 import { api } from '../service/api';
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
+import { CommunityContext } from '../contexts/CommunityContext';
 
 interface Props {
   navigation: StackNavigationHelpers;
 }
 
 export function Form({ navigation }: Props) {
+  const { user, loadUser } = useContext(CommunityContext);
+
   const [title, setTitle] = useState('');
   const [calories, setCalories] = useState('');
   const [breakfast, setBreakfast] = useState('');
@@ -27,6 +30,11 @@ export function Form({ navigation }: Props) {
   const [dinnerTime, setDinnerTime] = useState('');
 
   const [category, setCategory] = useState('');
+
+  useEffect(() => {
+    loadUser();
+    console.log(user);
+  }, []);
 
   function checkCategory(time: Date, category: string) {
     const formattedTime = moment(time).format('h:mm');
@@ -72,25 +80,24 @@ export function Form({ navigation }: Props) {
       lunch_time: lunchTime,
       snack_time: snackTime,
       dinner_time: dinnerTime,
-      users: undefined
+      users: user
 
-    
-    }).then(() => {
-      console.log('Success!');
+
+    }).then(data => {
       setTitle('');
       setCalories('');
       setBreakfast('');
       setLunch('');
       setSnack('');
       setDinner('');
-      
+
       setBreakfastTime('');
       setLunchTime('');
       setSnackTime('');
       setDinnerTime('');
 
+      console.log(data.data);
       navigation.navigate('Home');
-
     }).catch(err => {
       console.log('Error:' + err);
     })

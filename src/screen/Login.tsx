@@ -1,8 +1,9 @@
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, TextInput, Dimensions, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import { WavyHeader } from '../components/WavyHeader';
+import { CommunityContext } from '../contexts/CommunityContext';
 import { api } from '../service/api';
 
 const heightScreen = Dimensions.get('window').height;
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export function Login({ navigation }: Props) {
+  const { loadUser, saveStorage } = useContext(CommunityContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSnackbarEnable, setIsSnackbarEnable] = useState(false);
@@ -23,6 +26,7 @@ export function Login({ navigation }: Props) {
       password: password
     }).then(() => {
       console.log('Logged!')
+      saveStorage();
       navigation.navigate('Home');
     }).catch(err => {
       setIsSnackbarEnable(true);

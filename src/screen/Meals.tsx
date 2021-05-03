@@ -5,6 +5,7 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, StatusBar, S
 import { MealsContext } from '../contexts/MealsContext';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { CommunityContext } from '../contexts/CommunityContext';
 
 interface Props {
   navigation: StackNavigationHelpers;
@@ -12,6 +13,7 @@ interface Props {
 
 export function Meals({ navigation }: Props) {
   const { meals, mealsData } = useContext(MealsContext);
+  const { loadUser, saveStorage } = useContext(CommunityContext);
 
   return (
     <View style={styles.container}>
