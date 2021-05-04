@@ -44,10 +44,10 @@ interface IDefaultMeals {
   snack: string;
   dinner: string;
   total_calories: number;
-  breakfast_time: Date;
-  lunch_time: Date;
-  snack_time: Date;
-  dinner_time: Date;
+  breakfast_time: string;
+  lunch_time: string;
+  snack_time: string;
+  dinner_time: string;
 }
 
 const mealsData = [
@@ -59,10 +59,10 @@ const mealsData = [
     snack: 'Any fruit',
     dinner: 'Rice beans, chicken and a salad',
     total_calories: 1137,
-    breakfast_time: new Date(),
-    lunch_time: new Date(),
-    snack_time: new Date(),
-    dinner_time: new Date(),
+    breakfast_time: "07:30:00",
+    lunch_time: "12:00:00",
+    snack_time: "15:00:00",
+    dinner_time: "18:00:00",
   },
 
   {
@@ -73,24 +73,24 @@ const mealsData = [
     snack: 'Sandwich',
     dinner: 'Rice beans, steak and a salad',
     total_calories: 1496,
-    breakfast_time: new Date(),
-    lunch_time: new Date(),
-    snack_time: new Date(),
-    dinner_time: new Date(),
+    breakfast_time: "07:30:00",
+    lunch_time: "12:00:00",
+    snack_time: "15:00:00",
+    dinner_time: "18:00:00",
   },
 
   {
     id: '3',
     title: 'Fiber Meals',
-    breakfast: 'Sweet potatos and chicken',
+    breakfast: 'Sweet potatoes and chicken',
     lunch: 'Rice, sweet potatoes and chicken',
     snack: 'A fruit',
     dinner: 'Rice beans, steak, salad and a juice',
     total_calories: 1327,
-    breakfast_time: new Date(),
-    lunch_time: new Date(),
-    snack_time: new Date(),
-    dinner_time: new Date(),
+    breakfast_time: "07:30:00",
+    lunch_time: "12:00:00",
+    snack_time: "15:00:00",
+    dinner_time: "18:00:00",
   }
 ]
 

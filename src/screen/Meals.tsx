@@ -13,7 +13,6 @@ interface Props {
 
 export function Meals({ navigation }: Props) {
   const { meals, mealsData } = useContext(MealsContext);
-  const { loadUser, saveStorage } = useContext(CommunityContext);
 
   return (
     <View style={styles.container}>
@@ -26,7 +25,7 @@ export function Meals({ navigation }: Props) {
           <Text style={styles.seeAllBtnText}>Move to the sides</Text>
         </View>
 
-        <FlatList
+        <FlatList //App suggestion
           data={mealsData}
           style={{ marginBottom: 20 }}
           horizontal
