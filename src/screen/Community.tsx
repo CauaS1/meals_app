@@ -1,5 +1,5 @@
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, Dimensions, TextInput } from 'react-native';
 import { Header } from '../components/Header';
 
@@ -7,7 +7,7 @@ import Select from 'react-native-select-two';
 import Feather from 'react-native-vector-icons/Feather';
 
 import { CommunityContext } from '../contexts/CommunityContext';
-import { updateLocale } from 'moment';
+import { api } from '../service/api';
 
 interface Props {
   navigation: StackNavigationHelpers;
@@ -20,7 +20,32 @@ const options = [
 ]
 
 export function Community({ navigation }: Props) {
-  const { meals, searchInputFunction, searchInputValue, optionFunction, user } = useContext(CommunityContext);
+  const { meals, searchInputFunction, searchInputValue, optionFunction, getMeals } = useContext(CommunityContext);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  async function onRefresh() {
+    setRefreshing(true);
+
+    await api.get('/meals').then(data => {
+      const data_len = data.data.length;
+
+      if (data_len !== meals) {
+        getMeals();
+        return;
+      }
+
+      setRefreshing(false);
+    }).catch(() => {
+      setRefreshing(false);
+    });
+
+    setRefreshing(false);
+  }
+
+  useEffect(() => {
+    onRefresh();
+  }, []);
 
   return (
     <View style={styles.container}>

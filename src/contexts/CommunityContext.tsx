@@ -48,6 +48,7 @@ interface CommunityContextData {
   logout: () => void;
   loadUser: () => void;
   saveStorage: () => void;
+  getMeals: () => void;
 }
 
 const storage = new Storage({
@@ -187,7 +188,8 @@ export function CommunityProvider({ children }: Props) {
       user,
       loadUser,
       userPhoto,
-      saveStorage
+      saveStorage,
+      getMeals
     }} >
       { children}
     </CommunityContext.Provider>
