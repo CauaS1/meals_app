@@ -20,7 +20,7 @@ const options = [
 ]
 
 export function Community({ navigation }: Props) {
-  const { meals, searchInputFunction, searchInputValue, optionFunction } = useContext(CommunityContext);
+  const { meals, searchInputFunction, searchInputValue, optionFunction, user } = useContext(CommunityContext);
 
   return (
     <View style={styles.container}>
@@ -82,9 +82,8 @@ export function Community({ navigation }: Props) {
             dinner: item.dinner,
             dinner_time: item.dinner_time,
             total_calories: item.total_calories,
-            users: {
-              photo: 'undefined'
-            }
+            rated: item.rated,
+            users: item.users
           })} >
             <Image source={require('../assets/icons/egg.png')} style={styles.icons} />
             <Text style={styles.mealTitle}

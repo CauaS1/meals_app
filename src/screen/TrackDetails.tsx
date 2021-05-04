@@ -47,7 +47,8 @@ export function TrackDetails({ route }: Props) {
     lunch_time,
     users,
     rated,
-    appSuggestion
+    appSuggestion,
+    total_calories
   }: RouteProps = route.params;
 
   const { notificationSchedule } = useContext(MealsContext);
@@ -75,6 +76,7 @@ export function TrackDetails({ route }: Props) {
         />
       </View>
       <Text style={styles.mealTitle}>{title}</Text>
+      <Text style={styles.caloriesTitle}>{total_calories} calories</Text>
 
       <View style={styles.info}>
         <View>
@@ -156,6 +158,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center'
+  },
+  caloriesTitle: {
+    fontSize: 17.5,
+    fontWeight: 'bold',
+    textAlign: 'center',
+
+    color: '#00c49a60'
   },
 
   // Info details
