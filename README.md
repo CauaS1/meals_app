@@ -1,9 +1,9 @@
 # Meals App
 
 <p align="center">
- <a href="#description">Description</a> •
- <a href="#technologies">Technologies</a> • 
- <a href="#installation">Installation</a> 
+ <a href="#-description">Description</a> •
+ <a href="#-technologies">Technologies</a> • 
+ <a href="#-installation">Installation</a> 
 </p>
 
 <a href="https://www.linkedin.com/in/cau%C3%A3-souza-8129771b0/">
