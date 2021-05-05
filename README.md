@@ -36,7 +36,7 @@ Without ideas of meals to eat? We're here to help, create and share your meals p
 
 ## ⚠ Installation
 
-Clone the `meals_api` (Backend) <a href="https://github.com/CauaS1/meals_api">See the docs here</a>, after clone, install the depencencies with `yarn install` nad start it with `yarn dev`
+Clone the `meals_api` (Backend) <a href="https://github.com/CauaS1/meals_api">See the docs here</a>, after clone, install the depencencies with `yarn install` and start it with `yarn dev`
 <br>
 Clone this rep, install all dependencies with `yarn install`, and run the project with `yarn start`
 
