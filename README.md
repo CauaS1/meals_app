@@ -1,7 +1,7 @@
 # Meals App
 
 <p align="center">
- <a href="#objetivo">Description</a> •
+ <a href="#description">Description</a> •
  <a href="#technologies">Technologies</a> • 
  <a href="#installation">Installation</a> 
 </p>
