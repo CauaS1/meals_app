@@ -20,7 +20,7 @@ Without ideas of meals to eat? We're here to help, create and share your meals p
 <!--ts-->
    * [Node.js](#nodejs)
    * [Typescript](#typescript)
-   * [React Native](#react native)
+   * [React Native](#reactnative)
    * [Expo](#expo)  
    * [Postgres](#postgres)
 <!--te-->
