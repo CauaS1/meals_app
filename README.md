@@ -31,7 +31,7 @@ Without ideas of meals to eat? We're here to help, create and share your meals p
 - [x] Create Meal Plan
 - [x] Give a like to the onwer's Meal Plan
 - [x] Filter Meals  
-- [] Set notification to remember your Meal Plan
+- [ ] Set notification to remember your Meal Plan
 
 ## ⚠ Installation
 
